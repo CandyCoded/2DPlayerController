@@ -55,8 +55,11 @@ namespace CandyCoded.PlayerController2D
 
         public UnityEvent WallDismountSwitch;
 
-        public Vector2 position { get; private set; } = Vector2.zero;
-        public Vector2 velocity { get; private set; } = Vector2.zero;
+        private Vector2 _position = Vector2.zero;
+        private Vector2 _velocity = Vector2.zero;
+
+        public Vector2 position => _position;
+        public Vector2 velocity => _velocity;
 
         private InputManager inputManager;
         private BoxCollider2D boxCollider;
@@ -119,7 +122,11 @@ namespace CandyCoded.PlayerController2D
         private void FixedUpdate()
         {
 
+            _position = gameObject.transform.position;
+
             RunStateLoop();
+
+            gameObject.transform.position = _position;
 
         }
 
@@ -200,6 +207,10 @@ namespace CandyCoded.PlayerController2D
 
         private void StateFallingLoop()
         {
+
+            _velocity.y += Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
+
+            _position += _velocity * Time.deltaTime;
 
             FallingLoop?.Invoke();
 
