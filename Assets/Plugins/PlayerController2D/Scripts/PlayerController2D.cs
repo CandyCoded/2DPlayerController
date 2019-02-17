@@ -107,7 +107,7 @@ namespace CandyCoded.PlayerController2D
             set
             {
 
-                if (_state.Equals(value))
+                if (!_state.Equals(value))
                 {
 
 
