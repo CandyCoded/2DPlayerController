@@ -295,12 +295,14 @@ namespace CandyCoded.PlayerController2D
         private Vector2 MoveStep(MovementBounds bounds)
         {
 
+            var extents = boxCollider.bounds.extents;
+
             var nextPosition = _position;
 
             nextPosition += _velocity * Time.deltaTime;
 
-            nextPosition.x = Mathf.Clamp(nextPosition.x, bounds.left, bounds.right);
-            nextPosition.y = Mathf.Clamp(nextPosition.y, bounds.bottom, bounds.top);
+            nextPosition.x = Mathf.Clamp(nextPosition.x, bounds.left + extents.x, bounds.right - extents.x);
+            nextPosition.y = Mathf.Clamp(nextPosition.y, bounds.bottom + extents.y, bounds.top - extents.y);
 
             return nextPosition;
 
