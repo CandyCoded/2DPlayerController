@@ -234,6 +234,13 @@ namespace CandyCoded.PlayerController2D
 
             FallingLoop?.Invoke();
 
+            if (gameObject.transform.position.Equals(_position))
+            {
+
+                state = STATE.Idle;
+
+            }
+
         }
 
         private void StateJumpingSwitch()
