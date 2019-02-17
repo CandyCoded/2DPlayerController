@@ -15,10 +15,10 @@ namespace CandyCoded.PlayerController2D
 
         public struct MovementBounds
         {
-            public float minX;
-            public float minY;
-            public float maxX;
-            public float maxY;
+            public float left;
+            public float right;
+            public float top;
+            public float bottom;
         }
 
         [Serializable]
@@ -304,10 +304,10 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = new MovementBounds
             {
-                minX = hitLeftRay ? hitLeftRay.point.x : Mathf.NegativeInfinity,
-                maxX = hitRightRay ? hitRightRay.point.x : Mathf.Infinity,
-                minY = hitTopRay ? hitTopRay.point.y : Mathf.Infinity,
-                maxY = hitBottomRay ? hitBottomRay.point.y : Mathf.NegativeInfinity
+                left = hitLeftRay && hitLeftRay.point.x < boxCollider.bounds.min.x ? hitLeftRay.point.x : Mathf.NegativeInfinity,
+                right = hitRightRay && hitRightRay.point.x > boxCollider.bounds.max.x ? hitRightRay.point.x : Mathf.Infinity,
+                top = hitTopRay && hitTopRay.point.y > boxCollider.bounds.min.y ? hitTopRay.point.y : Mathf.Infinity,
+                bottom = hitBottomRay && hitBottomRay.point.y < boxCollider.bounds.min.y ? hitBottomRay.point.y : Mathf.NegativeInfinity
             };
 
             return bounds;
@@ -323,10 +323,10 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = CalculateMovementBounds();
 
-            Gizmos.DrawWireSphere(new Vector2(gameObject.transform.position.x, bounds.minY), 1);
-            Gizmos.DrawWireSphere(new Vector2(gameObject.transform.position.x, bounds.maxY), 1);
-            Gizmos.DrawWireSphere(new Vector2(bounds.minX, gameObject.transform.position.y), 1);
-            Gizmos.DrawWireSphere(new Vector2(bounds.maxX, gameObject.transform.position.y), 1);
+            Gizmos.DrawWireSphere(new Vector2(gameObject.transform.position.x, bounds.bottom), 1);
+            Gizmos.DrawWireSphere(new Vector2(gameObject.transform.position.x, bounds.top), 1);
+            Gizmos.DrawWireSphere(new Vector2(bounds.left, gameObject.transform.position.y), 1);
+            Gizmos.DrawWireSphere(new Vector2(bounds.right, gameObject.transform.position.y), 1);
 
         }
 
