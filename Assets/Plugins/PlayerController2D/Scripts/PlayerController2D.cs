@@ -8,6 +8,7 @@ namespace CandyCoded.PlayerController2D
 {
 
     [RequireComponent(typeof(BoxCollider2D))]
+    [RequireComponent(typeof(InputManager))]
     public class PlayerController2D : MonoBehaviour
     {
 
@@ -57,6 +58,7 @@ namespace CandyCoded.PlayerController2D
         public Vector2 position { get; private set; } = Vector2.zero;
         public Vector2 velocity { get; private set; } = Vector2.zero;
 
+        private InputManager inputManager;
         private BoxCollider2D boxCollider;
 
         public enum STATE
@@ -101,6 +103,7 @@ namespace CandyCoded.PlayerController2D
         private void Awake()
         {
 
+            inputManager = gameObject.GetComponent<InputManager>();
             boxCollider = gameObject.GetComponent<BoxCollider2D>();
 
         }
