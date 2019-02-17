@@ -230,7 +230,7 @@ namespace CandyCoded.PlayerController2D
 
             _velocity.y += Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
 
-            _position += _velocity * Time.deltaTime;
+            _position = MoveStep(CalculateMovementBounds());
 
             FallingLoop?.Invoke();
 
@@ -289,6 +289,20 @@ namespace CandyCoded.PlayerController2D
         {
 
             WallDismountSwitch?.Invoke();
+
+        }
+
+        private Vector2 MoveStep(MovementBounds bounds)
+        {
+
+            Vector2 nextPosition = _position;
+
+            nextPosition += _velocity * Time.deltaTime;
+
+            nextPosition.x = Mathf.Clamp(nextPosition.x, bounds.left, bounds.right);
+            nextPosition.y = Mathf.Clamp(nextPosition.y, bounds.bottom, bounds.top);
+
+            return nextPosition;
 
         }
 
