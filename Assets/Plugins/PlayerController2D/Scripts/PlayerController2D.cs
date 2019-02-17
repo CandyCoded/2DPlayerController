@@ -126,13 +126,13 @@ namespace CandyCoded.PlayerController2D
         private void RunStateSwitch()
         {
 
-            if (state.Equals(STATE.Idle)) StateIdleLoop();
-            else if (state.Equals(STATE.Walking)) StateWalkingLoop();
-            else if (state.Equals(STATE.Running)) StateRunningLoop();
-            else if (state.Equals(STATE.Falling)) StateFallingLoop();
-            else if (state.Equals(STATE.Jumping)) StateJumpingLoop();
-            else if (state.Equals(STATE.WallSlide)) StateWallSlideLoop();
-            else if (state.Equals(STATE.WallStick)) StateWallStickLoop();
+            if (state.Equals(STATE.Idle)) StateIdleSwitch();
+            else if (state.Equals(STATE.Walking)) StateWalkingSwitch();
+            else if (state.Equals(STATE.Running)) StateRunningSwitch();
+            else if (state.Equals(STATE.Falling)) StateFallingSwitch();
+            else if (state.Equals(STATE.Jumping)) StateJumpingSwitch();
+            else if (state.Equals(STATE.WallSlide)) StateWallSlideSwitch();
+            else if (state.Equals(STATE.WallStick)) StateWallStickSwitch();
 
         }
 
