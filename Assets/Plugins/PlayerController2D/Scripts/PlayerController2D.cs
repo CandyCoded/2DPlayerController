@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,23 @@ namespace CandyCoded.PlayerController2D
     [RequireComponent(typeof(InputManager))]
     public class PlayerController2D : MonoBehaviour
     {
+
+        public struct MovementBounds
+        {
+            public float minX;
+            public float minY;
+            public float maxX;
+            public float maxY;
+        }
+
+        [Serializable]
+        public struct LayerMaskGroup
+        {
+            public LayerMask left;
+            public LayerMask right;
+            public LayerMask top;
+            public LayerMask bottom;
+        }
 
         public const float DEFAULT_HORIZONTAL_SPEED = 7.0f;
         public const float DEFAULT_HORIZONTAL_RESISTANCE = 0.02f;
@@ -29,6 +47,8 @@ namespace CandyCoded.PlayerController2D
         public float wallSlideSpeed = DEFAULT_WALL_SLIDE_SPEED;
         public float wallStickTransitionDelay = DEFAULT_WALL_STICK_TRANSITION_DELAY;
         public int maxAvailableJumps = DEFAULT_MAX_AVAILABLE_JUMPS;
+
+        public LayerMaskGroup layerMask = new LayerMaskGroup();
 
         public UnityEvent IdleSwitch;
         public UnityEvent IdleLoop;
@@ -269,6 +289,44 @@ namespace CandyCoded.PlayerController2D
         {
 
             WallDismountSwitch?.Invoke();
+
+        }
+
+        private MovementBounds CalculateMovementBounds()
+        {
+
+            var size = (Vector2)boxCollider.bounds.size;
+
+            var hitLeftRay = Physics2D.BoxCast(_position, size, 0f, Vector2.left, 1f, layerMask.left);
+            var hitRightRay = Physics2D.BoxCast(_position, size, 0f, Vector2.right, 1f, layerMask.right);
+            var hitTopRay = Physics2D.BoxCast(_position, size, 0f, Vector2.up, 1f, layerMask.top);
+            var hitBottomRay = Physics2D.BoxCast(_position, size, 0f, Vector2.down, 1f, layerMask.bottom);
+
+            var bounds = new MovementBounds
+            {
+                minX = hitLeftRay ? hitLeftRay.point.x : Mathf.NegativeInfinity,
+                maxX = hitRightRay ? hitRightRay.point.x : Mathf.Infinity,
+                minY = hitTopRay ? hitTopRay.point.y : Mathf.Infinity,
+                maxY = hitBottomRay ? hitBottomRay.point.y : Mathf.NegativeInfinity
+            };
+
+            return bounds;
+
+        }
+
+        private void OnDrawGizmos()
+        {
+
+            boxCollider = gameObject.GetComponent<BoxCollider2D>();
+
+            _position = gameObject.transform.position;
+
+            var bounds = CalculateMovementBounds();
+
+            Gizmos.DrawWireSphere(new Vector2(gameObject.transform.position.x, bounds.minY), 1);
+            Gizmos.DrawWireSphere(new Vector2(gameObject.transform.position.x, bounds.maxY), 1);
+            Gizmos.DrawWireSphere(new Vector2(bounds.minX, gameObject.transform.position.y), 1);
+            Gizmos.DrawWireSphere(new Vector2(bounds.maxX, gameObject.transform.position.y), 1);
 
         }
 
