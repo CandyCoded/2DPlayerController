@@ -306,7 +306,7 @@ namespace CandyCoded.PlayerController2D
             {
                 left = hitLeftRay && hitLeftRay.point.x < boxCollider.bounds.min.x ? hitLeftRay.point.x : Mathf.NegativeInfinity,
                 right = hitRightRay && hitRightRay.point.x > boxCollider.bounds.max.x ? hitRightRay.point.x : Mathf.Infinity,
-                top = hitTopRay && hitTopRay.point.y > boxCollider.bounds.min.y ? hitTopRay.point.y : Mathf.Infinity,
+                top = hitTopRay && hitTopRay.point.y > boxCollider.bounds.max.y ? hitTopRay.point.y : Mathf.Infinity,
                 bottom = hitBottomRay && hitBottomRay.point.y < boxCollider.bounds.min.y ? hitBottomRay.point.y : Mathf.NegativeInfinity
             };
 
