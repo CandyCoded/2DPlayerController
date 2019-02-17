@@ -295,7 +295,7 @@ namespace CandyCoded.PlayerController2D
         private MovementBounds CalculateMovementBounds()
         {
 
-            var size = (Vector2)boxCollider.bounds.size;
+            var size = boxCollider.bounds.size;
 
             var hitLeftRay = Physics2D.BoxCast(_position, size, 0f, Vector2.left, 1f, layerMask.left);
             var hitRightRay = Physics2D.BoxCast(_position, size, 0f, Vector2.right, 1f, layerMask.right);
