@@ -295,7 +295,7 @@ namespace CandyCoded.PlayerController2D
         private Vector2 MoveStep(MovementBounds bounds)
         {
 
-            Vector2 nextPosition = _position;
+            var nextPosition = _position;
 
             nextPosition += _velocity * Time.deltaTime;
 
