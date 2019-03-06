@@ -349,10 +349,15 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = CalculateMovementBounds();
 
-            Gizmos.DrawWireSphere(new Vector2(gameObject.transform.position.x, bounds.bottom), 1);
-            Gizmos.DrawWireSphere(new Vector2(gameObject.transform.position.x, bounds.top), 1);
-            Gizmos.DrawWireSphere(new Vector2(bounds.left, gameObject.transform.position.y), 1);
-            Gizmos.DrawWireSphere(new Vector2(bounds.right, gameObject.transform.position.y), 1);
+            Gizmos.DrawWireSphere(new Vector2(_position.x - extents.x, _position.y), 0.2f);
+            Gizmos.DrawWireSphere(new Vector2(_position.x + extents.x, _position.y), 0.2f);
+            Gizmos.DrawWireSphere(new Vector2(_position.x, _position.y - extents.y), 0.2f);
+            Gizmos.DrawWireSphere(new Vector2(_position.x, _position.y + extents.y), 0.2f);
+
+            Gizmos.DrawWireSphere(new Vector2(_position.x, bounds.bottom), 1);
+            Gizmos.DrawWireSphere(new Vector2(_position.x, bounds.top), 1);
+            Gizmos.DrawWireSphere(new Vector2(bounds.left, _position.y), 1);
+            Gizmos.DrawWireSphere(new Vector2(bounds.right, _position.y), 1);
 
         }
 
