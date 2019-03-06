@@ -305,8 +305,6 @@ namespace CandyCoded.PlayerController2D
         private Vector2 MoveStep(MovementBounds bounds)
         {
 
-            var extents = boxCollider.bounds.extents;
-
             var nextPosition = _position;
 
             nextPosition += _velocity * Time.deltaTime;
