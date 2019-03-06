@@ -202,6 +202,16 @@ namespace CandyCoded.PlayerController2D
 
             }
 
+            if (inputManager.inputHorizontal > 0 && (bounds.right.Equals(Mathf.Infinity) || position.x > bounds.right - extents.x) ||
+                inputManager.inputHorizontal < 0 && (bounds.left.Equals(Mathf.NegativeInfinity) || position.x < bounds.left + extents.x))
+            {
+
+                state = STATE.Running;
+
+                return;
+
+            }
+
             IdleLoop?.Invoke();
 
         }
@@ -229,6 +239,29 @@ namespace CandyCoded.PlayerController2D
 
         private void StateRunningLoop()
         {
+
+            if (Mathf.Abs(inputManager.inputHorizontal) > 0)
+            {
+
+                _velocity.x = Mathf.Lerp(velocity.x, inputManager.inputHorizontal * horizontalSpeed, horizontalSpeed * Time.deltaTime);
+
+            }
+            else if (velocity.x > 0)
+            {
+
+                _velocity.x = Mathf.Max(_velocity.x - horizontalResistance, 0);
+
+            }
+            else if (velocity.x < 0)
+            {
+
+                _velocity.x = Mathf.Min(_velocity.x + horizontalResistance, 0);
+
+            }
+
+            var bounds = CalculateMovementBounds();
+
+            _position = MoveStep(bounds);
 
             RunningLoop?.Invoke();
 
