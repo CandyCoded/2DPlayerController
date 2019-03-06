@@ -182,12 +182,25 @@ namespace CandyCoded.PlayerController2D
         private void StateIdleSwitch()
         {
 
+            _velocity.y = 0;
+
             IdleSwitch?.Invoke();
 
         }
 
         private void StateIdleLoop()
         {
+
+            var bounds = CalculateMovementBounds();
+
+            if (bounds.bottom.Equals(Mathf.NegativeInfinity) || position.y < bounds.bottom + extents.y)
+            {
+
+                state = STATE.Falling;
+
+                return;
+
+            }
 
             IdleLoop?.Invoke();
 
@@ -231,18 +244,29 @@ namespace CandyCoded.PlayerController2D
         private void StateFallingLoop()
         {
 
-            _velocity.y += Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
+            if (Mathf.Abs(inputManager.inputHorizontal) > 0)
+            {
 
-            _position = MoveStep(CalculateMovementBounds());
+                _velocity.x = Mathf.Lerp(velocity.x, inputManager.inputHorizontal * horizontalSpeed, horizontalSpeed * Time.deltaTime);
 
-            FallingLoop?.Invoke();
+            }
 
-            if (gameObject.transform.position.Equals(_position))
+            _velocity.y = _velocity.y + Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
+
+            var bounds = CalculateMovementBounds();
+
+            if (bounds.bottom.NearlyEqual(_position.y - extents.y))
             {
 
                 state = STATE.Idle;
 
+                return;
+
             }
+
+            _position = MoveStep(bounds);
+
+            FallingLoop?.Invoke();
 
         }
 
