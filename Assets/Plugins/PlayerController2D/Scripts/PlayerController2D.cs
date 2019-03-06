@@ -83,6 +83,7 @@ namespace CandyCoded.PlayerController2D
 
         private InputManager inputManager;
         private BoxCollider2D boxCollider;
+        private Vector3 extents;
 
         public enum STATE
         {
@@ -128,6 +129,8 @@ namespace CandyCoded.PlayerController2D
 
             inputManager = gameObject.GetComponent<InputManager>();
             boxCollider = gameObject.GetComponent<BoxCollider2D>();
+
+            extents = boxCollider.bounds.extents;
 
         }
 
@@ -341,6 +344,8 @@ namespace CandyCoded.PlayerController2D
         {
 
             boxCollider = gameObject.GetComponent<BoxCollider2D>();
+
+            extents = boxCollider.bounds.extents;
 
             _position = gameObject.transform.position;
 
