@@ -193,7 +193,7 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = CalculateMovementBounds();
 
-            if (bounds.bottom.Equals(Mathf.NegativeInfinity) || bounds.bottom < position.y - extents.y)
+            if (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom + extents.y))
             {
 
                 state = STATE.Falling;
