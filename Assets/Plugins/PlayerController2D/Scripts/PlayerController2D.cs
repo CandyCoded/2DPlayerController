@@ -300,6 +300,8 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = CalculateMovementBounds();
 
+            _position = MoveStep(bounds);
+
             if (bounds.bottom.NearlyEqual(_position.y - extents.y))
             {
 
@@ -308,8 +310,6 @@ namespace CandyCoded.PlayerController2D
                 return;
 
             }
-
-            _position = MoveStep(bounds);
 
             FallingLoop?.Invoke();
 
