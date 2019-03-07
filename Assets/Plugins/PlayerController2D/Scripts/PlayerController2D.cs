@@ -253,7 +253,8 @@ namespace CandyCoded.PlayerController2D
                 _velocity.x = Mathf.Lerp(velocity.x, inputManager.inputHorizontal * horizontalSpeed, horizontalSpeed * Time.deltaTime);
 
             }
-            else if (velocity.x > 0)
+
+            if (velocity.x > 0)
             {
 
                 _velocity.x = Mathf.Max(_velocity.x - horizontalResistance, 0);
