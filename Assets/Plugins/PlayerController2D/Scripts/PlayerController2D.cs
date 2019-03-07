@@ -75,10 +75,9 @@ namespace CandyCoded.PlayerController2D
 
         public UnityEvent WallDismountSwitch;
 
-        private Vector2 _position = Vector2.zero;
         private Vector2 _velocity = Vector2.zero;
 
-        public Vector2 position => _position;
+        public Vector2 position { get; private set; } = Vector2.zero;
         public Vector2 velocity => _velocity;
 
         private InputManager inputManager;
@@ -145,11 +144,11 @@ namespace CandyCoded.PlayerController2D
         private void FixedUpdate()
         {
 
-            _position = gameObject.transform.position;
+            position = gameObject.transform.position;
 
             RunStateLoop();
 
-            gameObject.transform.position = _position;
+            gameObject.transform.position = position;
 
         }
 
@@ -219,7 +218,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsIdle(MovementBounds bounds)
         {
 
-            return bounds.bottom.NearlyEqual(_position.y - extents.y);
+            return bounds.bottom.NearlyEqual(position.y - extents.y);
 
         }
 
@@ -253,7 +252,7 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = CalculateMovementBounds();
 
-            _position = MoveStep(bounds);
+            position = MoveStep(bounds);
 
             if (IsFalling(bounds))
             {
@@ -271,8 +270,8 @@ namespace CandyCoded.PlayerController2D
         private bool IsRunning(MovementBounds bounds)
         {
 
-            return inputManager.inputHorizontal > 0 && (bounds.right.Equals(Mathf.Infinity) || _position.x > bounds.right - extents.x) ||
-                inputManager.inputHorizontal < 0 && (bounds.left.Equals(Mathf.NegativeInfinity) || _position.x < bounds.left + extents.x);
+            return inputManager.inputHorizontal > 0 && (bounds.right.Equals(Mathf.Infinity) || position.x > bounds.right - extents.x) ||
+                inputManager.inputHorizontal < 0 && (bounds.left.Equals(Mathf.NegativeInfinity) || position.x < bounds.left + extents.x);
 
         }
 
@@ -292,7 +291,7 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = CalculateMovementBounds();
 
-            _position = MoveStep(bounds);
+            position = MoveStep(bounds);
 
             if (IsIdle(bounds))
             {
@@ -310,7 +309,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsFalling(MovementBounds bounds)
         {
 
-            return bounds.bottom.Equals(Mathf.NegativeInfinity) || !_position.y.NearlyEqual(bounds.bottom + extents.y);
+            return bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom + extents.y);
 
         }
 
@@ -409,7 +408,7 @@ namespace CandyCoded.PlayerController2D
         private Vector2 MoveStep(MovementBounds bounds)
         {
 
-            var nextPosition = _position;
+            var nextPosition = position;
 
             nextPosition += _velocity * Time.deltaTime;
 
@@ -425,10 +424,10 @@ namespace CandyCoded.PlayerController2D
 
             var size = boxCollider.bounds.size;
 
-            var hitLeftRay = Physics2D.BoxCast(_position, size, 0f, Vector2.left, 1f, layerMask.left);
-            var hitRightRay = Physics2D.BoxCast(_position, size, 0f, Vector2.right, 1f, layerMask.right);
-            var hitTopRay = Physics2D.BoxCast(_position, size, 0f, Vector2.up, 1f, layerMask.top);
-            var hitBottomRay = Physics2D.BoxCast(_position, size, 0f, Vector2.down, 1f, layerMask.bottom);
+            var hitLeftRay = Physics2D.BoxCast(position, size, 0f, Vector2.left, 1f, layerMask.left);
+            var hitRightRay = Physics2D.BoxCast(position, size, 0f, Vector2.right, 1f, layerMask.right);
+            var hitTopRay = Physics2D.BoxCast(position, size, 0f, Vector2.up, 1f, layerMask.top);
+            var hitBottomRay = Physics2D.BoxCast(position, size, 0f, Vector2.down, 1f, layerMask.bottom);
 
             var bounds = new MovementBounds
             {
@@ -449,19 +448,19 @@ namespace CandyCoded.PlayerController2D
 
             extents = boxCollider.bounds.extents;
 
-            _position = gameObject.transform.position;
+            position = gameObject.transform.position;
 
             var bounds = CalculateMovementBounds();
 
-            Gizmos.DrawWireSphere(new Vector2(_position.x - extents.x, _position.y), 0.2f); // Left
-            Gizmos.DrawWireSphere(new Vector2(_position.x + extents.x, _position.y), 0.2f); // Right
-            Gizmos.DrawWireSphere(new Vector2(_position.x, _position.y + extents.y), 0.2f); // Top
-            Gizmos.DrawWireSphere(new Vector2(_position.x, _position.y - extents.y), 0.2f); // Bottom
+            Gizmos.DrawWireSphere(new Vector2(position.x - extents.x, position.y), 0.2f); // Left
+            Gizmos.DrawWireSphere(new Vector2(position.x + extents.x, position.y), 0.2f); // Right
+            Gizmos.DrawWireSphere(new Vector2(position.x, position.y + extents.y), 0.2f); // Top
+            Gizmos.DrawWireSphere(new Vector2(position.x, position.y - extents.y), 0.2f); // Bottom
 
-            Gizmos.DrawWireSphere(new Vector2(_position.x, bounds.bottom), 1);
-            Gizmos.DrawWireSphere(new Vector2(_position.x, bounds.top), 1);
-            Gizmos.DrawWireSphere(new Vector2(bounds.left, _position.y), 1);
-            Gizmos.DrawWireSphere(new Vector2(bounds.right, _position.y), 1);
+            Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom), 1);
+            Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top), 1);
+            Gizmos.DrawWireSphere(new Vector2(bounds.left, position.y), 1);
+            Gizmos.DrawWireSphere(new Vector2(bounds.right, position.y), 1);
 
         }
 
