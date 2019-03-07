@@ -193,7 +193,7 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = CalculateMovementBounds();
 
-            if (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom + extents.y))
+            if (IsFalling(bounds))
             {
 
                 state = STATE.Falling;
@@ -202,8 +202,7 @@ namespace CandyCoded.PlayerController2D
 
             }
 
-            if (inputManager.inputHorizontal > 0 && (bounds.right.Equals(Mathf.Infinity) || position.x > bounds.right - extents.x) ||
-                inputManager.inputHorizontal < 0 && (bounds.left.Equals(Mathf.NegativeInfinity) || position.x < bounds.left + extents.x))
+            if (IsRunning(bounds))
             {
 
                 state = STATE.Running;
@@ -213,6 +212,14 @@ namespace CandyCoded.PlayerController2D
             }
 
             IdleLoop?.Invoke();
+
+        }
+
+
+        private bool IsIdle(MovementBounds bounds)
+        {
+
+            return bounds.bottom.NearlyEqual(_position.y - extents.y);
 
         }
 
@@ -263,7 +270,24 @@ namespace CandyCoded.PlayerController2D
 
             _position = MoveStep(bounds);
 
+            if (IsFalling(bounds))
+            {
+
+                state = STATE.Falling;
+
+                return;
+
+            }
+
             RunningLoop?.Invoke();
+
+        }
+
+        private bool IsRunning(MovementBounds bounds)
+        {
+
+            return inputManager.inputHorizontal > 0 && (bounds.right.Equals(Mathf.Infinity) || _position.x > bounds.right - extents.x) ||
+                inputManager.inputHorizontal < 0 && (bounds.left.Equals(Mathf.NegativeInfinity) || _position.x < bounds.left + extents.x);
 
         }
 
@@ -302,7 +326,7 @@ namespace CandyCoded.PlayerController2D
 
             _position = MoveStep(bounds);
 
-            if (bounds.bottom.NearlyEqual(_position.y - extents.y))
+            if (IsIdle(bounds))
             {
 
                 state = STATE.Idle;
@@ -312,6 +336,13 @@ namespace CandyCoded.PlayerController2D
             }
 
             FallingLoop?.Invoke();
+
+        }
+
+        private bool IsFalling(MovementBounds bounds)
+        {
+
+            return bounds.bottom.Equals(Mathf.NegativeInfinity) || !_position.y.NearlyEqual(bounds.bottom + extents.y);
 
         }
 
