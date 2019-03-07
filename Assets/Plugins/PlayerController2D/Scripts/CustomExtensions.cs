@@ -3,7 +3,7 @@ using UnityEngine;
 public static class CustomExtensions
 {
 
-    public static readonly float EPSILON = 0.001f;
+    public static readonly float EPSILON = 0.01f;
 
     public static bool NearlyEqual(this float num1, float num2)
     {
