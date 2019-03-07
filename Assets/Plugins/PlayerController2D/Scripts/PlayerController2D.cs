@@ -249,25 +249,7 @@ namespace CandyCoded.PlayerController2D
         private void StateRunningLoop()
         {
 
-            if (Mathf.Abs(inputManager.inputHorizontal) > 0)
-            {
-
-                _velocity.x = Mathf.Lerp(velocity.x, inputManager.inputHorizontal * horizontalSpeed, horizontalSpeed * Time.deltaTime);
-
-            }
-
-            if (velocity.x > 0)
-            {
-
-                _velocity.x = Mathf.Max(_velocity.x - horizontalResistance, 0);
-
-            }
-            else if (velocity.x < 0)
-            {
-
-                _velocity.x = Mathf.Min(_velocity.x + horizontalResistance, 0);
-
-            }
+            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
 
             var bounds = CalculateMovementBounds();
 
@@ -304,27 +286,9 @@ namespace CandyCoded.PlayerController2D
         private void StateFallingLoop()
         {
 
-            if (Mathf.Abs(inputManager.inputHorizontal) > 0)
-            {
+            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
 
-                _velocity.x = Mathf.Lerp(velocity.x, inputManager.inputHorizontal * horizontalSpeed, horizontalSpeed * Time.deltaTime);
-
-            }
-
-            if (velocity.x > 0)
-            {
-
-                _velocity.x = Mathf.Max(_velocity.x - horizontalResistance, 0);
-
-            }
-            else if (velocity.x < 0)
-            {
-
-                _velocity.x = Mathf.Min(_velocity.x + horizontalResistance, 0);
-
-            }
-
-            _velocity.y = _velocity.y + Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
+            _velocity.y = CalculateVerticalVelocity(_velocity.y);
 
             var bounds = CalculateMovementBounds();
 
@@ -403,6 +367,42 @@ namespace CandyCoded.PlayerController2D
         {
 
             WallDismountSwitch?.Invoke();
+
+        }
+
+        private float CalculateHorizontalVelocity(float velocityX)
+        {
+
+            if (Mathf.Abs(inputManager.inputHorizontal) > 0)
+            {
+
+                velocityX = Mathf.Lerp(velocityX, inputManager.inputHorizontal * horizontalSpeed, horizontalSpeed * Time.deltaTime);
+
+            }
+
+            if (velocity.x > 0)
+            {
+
+                velocityX = Mathf.Max(velocityX - horizontalResistance, 0);
+
+            }
+            else if (velocity.x < 0)
+            {
+
+                velocityX = Mathf.Min(velocityX + horizontalResistance, 0);
+
+            }
+
+            return velocityX;
+
+        }
+
+        private float CalculateVerticalVelocity(float velocityY)
+        {
+
+            velocityY = Mathf.Max(velocityY + Physics2D.gravity.y * gravityMultiplier * Time.deltaTime, Physics2D.gravity.y);
+
+            return velocityY;
 
         }
 
