@@ -240,6 +240,8 @@ namespace CandyCoded.PlayerController2D
         private void StateRunningSwitch()
         {
 
+            _velocity.y = 0;
+
             RunningSwitch?.Invoke();
 
         }
