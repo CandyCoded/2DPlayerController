@@ -134,14 +134,6 @@ namespace CandyCoded.PlayerController2D
 
         }
 
-        private void Update()
-        {
-
-
-
-
-        }
-
         private void FixedUpdate()
         {
 
