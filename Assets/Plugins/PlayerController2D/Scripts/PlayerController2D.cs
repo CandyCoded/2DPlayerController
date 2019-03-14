@@ -219,7 +219,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsIdle(MovementBounds bounds)
         {
 
-            return bounds.bottom.NearlyEqual(position.y - extents.y);
+            return bounds.bottom.NearlyEqual(position.y - extents.y) && _velocity.x.NearlyEqual(0);
 
         }
 
