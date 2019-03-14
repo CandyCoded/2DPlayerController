@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using CandyCoded;
 using UnityEngine.Events;
@@ -434,10 +435,14 @@ namespace CandyCoded.PlayerController2D
 
             var size = boxCollider.bounds.size;
 
-            var hitLeftRay = Physics2D.BoxCast(position, size, 0f, Vector2.left, 1f, layerMask.left);
-            var hitRightRay = Physics2D.BoxCast(position, size, 0f, Vector2.right, 1f, layerMask.right);
-            var hitTopRay = Physics2D.BoxCast(position, size, 0f, Vector2.up, 1f, layerMask.top);
-            var hitBottomRay = Physics2D.BoxCast(position, size, 0f, Vector2.down, 1f, layerMask.bottom);
+            var hitLeftRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.left, 1f, layerMask.left)
+                .FirstOrDefault(h => h.point.x < boxCollider.bounds.min.x);
+            var hitRightRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.right, 1f, layerMask.right)
+                .FirstOrDefault(h => h.point.x > boxCollider.bounds.max.x);
+            var hitTopRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.up, 1f, layerMask.top)
+                .FirstOrDefault(h => h.point.y > boxCollider.bounds.max.y);
+            var hitBottomRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.down, 1f, layerMask.bottom)
+                .FirstOrDefault(h => h.point.y < boxCollider.bounds.min.y);
 
             var bounds = new MovementBounds
             {
