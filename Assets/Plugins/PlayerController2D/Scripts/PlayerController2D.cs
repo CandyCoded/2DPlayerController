@@ -255,6 +255,15 @@ namespace CandyCoded.PlayerController2D
 
             position = MoveStep(bounds);
 
+            if (IsIdle(bounds))
+            {
+
+                state = STATE.Idle;
+
+                return;
+
+            }
+
             if (IsFalling(bounds))
             {
 
