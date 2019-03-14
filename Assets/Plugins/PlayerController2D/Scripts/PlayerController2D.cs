@@ -448,9 +448,18 @@ namespace CandyCoded.PlayerController2D
 
             extents = boxCollider.bounds.extents;
 
+            var size = boxCollider.bounds.size;
+
             position = gameObject.transform.position;
 
             var bounds = CalculateMovementBounds();
+
+            Gizmos.color = Color.green;
+
+            Gizmos.DrawWireCube(position + Vector2.left, size);
+            Gizmos.DrawWireCube(position + Vector2.right, size);
+            Gizmos.DrawWireCube(position + Vector2.up, size);
+            Gizmos.DrawWireCube(position + Vector2.down, size);
 
             Gizmos.DrawWireSphere(new Vector2(position.x - extents.x, position.y), 0.2f); // Left
             Gizmos.DrawWireSphere(new Vector2(position.x + extents.x, position.y), 0.2f); // Right
