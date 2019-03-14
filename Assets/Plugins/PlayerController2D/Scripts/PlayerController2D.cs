@@ -181,6 +181,7 @@ namespace CandyCoded.PlayerController2D
         private void StateIdleSwitch()
         {
 
+            _velocity.x = 0;
             _velocity.y = 0;
 
             IdleSwitch?.Invoke();
