@@ -23,7 +23,7 @@ namespace CandyCoded.PlayerController2D
 
         }
 
-        private void LateUpdate()
+        public void Reset()
         {
 
             inputJumpDown = false;

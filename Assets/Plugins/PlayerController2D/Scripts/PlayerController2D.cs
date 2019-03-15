@@ -142,6 +142,8 @@ namespace CandyCoded.PlayerController2D
 
             gameObject.transform.position = position;
 
+            inputManager.Reset();
+
         }
 
         private void RunStateSwitch()
