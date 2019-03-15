@@ -205,6 +205,15 @@ namespace CandyCoded.PlayerController2D
 
             }
 
+            if (IsJumping())
+            {
+
+                state = STATE.Jumping;
+
+                return;
+
+            }
+
             IdleLoop?.Invoke();
 
         }
@@ -330,6 +339,8 @@ namespace CandyCoded.PlayerController2D
         private void StateJumpingSwitch()
         {
 
+            _velocity.y = highJumpSpeed;
+
             JumpingSwitch?.Invoke();
 
         }
@@ -337,7 +348,39 @@ namespace CandyCoded.PlayerController2D
         private void StateJumpingLoop()
         {
 
+            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
+            _velocity.y = CalculateVerticalVelocity(_velocity.y);
+
+            var bounds = CalculateMovementBounds();
+
+            position = MoveStep(bounds);
+
+            if (IsIdle(bounds))
+            {
+
+                state = STATE.Idle;
+
+                return;
+
+            }
+
+            if (IsRunning(bounds))
+            {
+
+                state = STATE.Running;
+
+                return;
+
+            }
+
             JumpingLoop?.Invoke();
+
+        }
+
+        private bool IsJumping()
+        {
+
+            return inputManager.inputJumpDown;
 
         }
 
