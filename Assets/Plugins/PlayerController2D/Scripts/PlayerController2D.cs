@@ -270,8 +270,10 @@ namespace CandyCoded.PlayerController2D
         private bool IsRunning(MovementBounds bounds)
         {
 
-            return inputManager.inputHorizontal > 0 && (bounds.right.Equals(Mathf.Infinity) || position.x > bounds.right - extents.x) ||
-                inputManager.inputHorizontal < 0 && (bounds.left.Equals(Mathf.NegativeInfinity) || position.x < bounds.left + extents.x);
+            return bounds.bottom.NearlyEqual(position.y - extents.y) && (
+                (inputManager.inputHorizontal > 0 || _velocity.x > 0) && (bounds.right.Equals(Mathf.Infinity) || position.x > bounds.right - extents.x) ||
+                (inputManager.inputHorizontal < 0 || _velocity.x < 0) && (bounds.left.Equals(Mathf.NegativeInfinity) || position.x < bounds.left + extents.x)
+            );
 
         }
 
