@@ -82,6 +82,8 @@ namespace CandyCoded.PlayerController2D
         private BoxCollider2D boxCollider;
         private Vector3 extents;
 
+        private float horizontalFriction;
+
         public enum STATE
         {
             Idle,
@@ -393,13 +395,13 @@ namespace CandyCoded.PlayerController2D
             if (velocity.x > 0)
             {
 
-                velocityX = Mathf.Max(velocityX - horizontalResistance, 0);
+                velocityX = Mathf.Min(Mathf.Max(velocityX - Mathf.Max(horizontalResistance, horizontalFriction), 0), horizontalSpeed);
 
             }
             else if (velocity.x < 0)
             {
 
-                velocityX = Mathf.Min(velocityX + horizontalResistance, 0);
+                velocityX = Mathf.Max(Mathf.Min(velocityX + Mathf.Max(horizontalResistance, horizontalFriction), 0), -horizontalSpeed);
 
             }
 
@@ -443,6 +445,19 @@ namespace CandyCoded.PlayerController2D
                 .FirstOrDefault(h => h.point.y > boxCollider.bounds.max.y);
             var hitBottomRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.down, 1f, layerMask.bottom)
                 .FirstOrDefault(h => h.point.y < boxCollider.bounds.min.y);
+
+            if (hitBottomRay)
+            {
+
+                horizontalFriction = hitBottomRay.collider.friction;
+
+            }
+            else
+            {
+
+                horizontalFriction = 0;
+
+            }
 
             var bounds = new MovementBounds
             {
