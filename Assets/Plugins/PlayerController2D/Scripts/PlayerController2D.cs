@@ -300,7 +300,6 @@ namespace CandyCoded.PlayerController2D
         {
 
             _velocity.x = CalculateHorizontalVelocity(_velocity.x);
-
             _velocity.y = CalculateVerticalVelocity(_velocity.y);
 
             var bounds = CalculateMovementBounds();
