@@ -78,6 +78,8 @@ namespace CandyCoded.PlayerController2D
         public Vector2 position { get; private set; } = Vector2.zero;
         public Vector2 velocity => _velocity;
 
+        private const float frictionRaycastRadius = 0.2f;
+
         private InputManager inputManager;
         private BoxCollider2D boxCollider;
         private Vector3 extents;
@@ -551,22 +553,22 @@ namespace CandyCoded.PlayerController2D
 
             // Left
             Gizmos.DrawWireCube(position + Vector2.left, size);
-            Gizmos.DrawWireSphere(new Vector2(position.x - extents.x, position.y), 0.2f);
+            Gizmos.DrawWireSphere(new Vector2(position.x - extents.x, position.y), frictionRaycastRadius);
             Gizmos.DrawWireSphere(new Vector2(bounds.left, position.y), 1);
 
             // Right
             Gizmos.DrawWireCube(position + Vector2.right, size);
-            Gizmos.DrawWireSphere(new Vector2(position.x + extents.x, position.y), 0.2f);
+            Gizmos.DrawWireSphere(new Vector2(position.x + extents.x, position.y), frictionRaycastRadius);
             Gizmos.DrawWireSphere(new Vector2(bounds.right, position.y), 1);
 
             // Top
             Gizmos.DrawWireCube(position + Vector2.up, size);
-            Gizmos.DrawWireSphere(new Vector2(position.x, position.y + extents.y), 0.2f);
+            Gizmos.DrawWireSphere(new Vector2(position.x, position.y + extents.y), frictionRaycastRadius);
             Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top), 1);
 
             // Bottom
             Gizmos.DrawWireCube(position + Vector2.down, size);
-            Gizmos.DrawWireSphere(new Vector2(position.x, position.y - extents.y), 0.2f);
+            Gizmos.DrawWireSphere(new Vector2(position.x, position.y - extents.y), frictionRaycastRadius);
             Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom), 1);
 
         }
