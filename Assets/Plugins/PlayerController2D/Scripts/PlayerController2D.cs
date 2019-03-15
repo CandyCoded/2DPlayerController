@@ -302,6 +302,15 @@ namespace CandyCoded.PlayerController2D
 
             }
 
+            if (IsRunning(bounds))
+            {
+
+                state = STATE.Running;
+
+                return;
+
+            }
+
             FallingLoop?.Invoke();
 
         }
