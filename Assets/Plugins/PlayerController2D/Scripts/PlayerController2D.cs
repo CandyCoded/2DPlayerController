@@ -292,6 +292,8 @@ namespace CandyCoded.PlayerController2D
         private void StateFallingSwitch()
         {
 
+            _velocity.y = 0;
+
             FallingSwitch?.Invoke();
 
         }
@@ -331,7 +333,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsFalling(MovementBounds bounds)
         {
 
-            return bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom + extents.y);
+            return (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom + extents.y)) && _velocity.y <= 0;
 
         }
 
@@ -358,6 +360,15 @@ namespace CandyCoded.PlayerController2D
             {
 
                 state = STATE.Idle;
+
+                return;
+
+            }
+
+            if (IsFalling(bounds))
+            {
+
+                state = STATE.Falling;
 
                 return;
 
