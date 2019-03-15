@@ -276,6 +276,15 @@ namespace CandyCoded.PlayerController2D
 
             }
 
+            if (IsJumping())
+            {
+
+                state = STATE.Jumping;
+
+                return;
+
+            }
+
             RunningLoop?.Invoke();
 
         }
