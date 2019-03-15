@@ -485,20 +485,25 @@ namespace CandyCoded.PlayerController2D
 
             Gizmos.color = Color.green;
 
+            // Left
             Gizmos.DrawWireCube(position + Vector2.left, size);
-            Gizmos.DrawWireCube(position + Vector2.right, size);
-            Gizmos.DrawWireCube(position + Vector2.up, size);
-            Gizmos.DrawWireCube(position + Vector2.down, size);
-
-            Gizmos.DrawWireSphere(new Vector2(position.x - extents.x, position.y), 0.2f); // Left
-            Gizmos.DrawWireSphere(new Vector2(position.x + extents.x, position.y), 0.2f); // Right
-            Gizmos.DrawWireSphere(new Vector2(position.x, position.y + extents.y), 0.2f); // Top
-            Gizmos.DrawWireSphere(new Vector2(position.x, position.y - extents.y), 0.2f); // Bottom
-
-            Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom), 1);
-            Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top), 1);
+            Gizmos.DrawWireSphere(new Vector2(position.x - extents.x, position.y), 0.2f);
             Gizmos.DrawWireSphere(new Vector2(bounds.left, position.y), 1);
+
+            // Right
+            Gizmos.DrawWireCube(position + Vector2.right, size);
+            Gizmos.DrawWireSphere(new Vector2(position.x + extents.x, position.y), 0.2f);
             Gizmos.DrawWireSphere(new Vector2(bounds.right, position.y), 1);
+
+            // Top
+            Gizmos.DrawWireCube(position + Vector2.up, size);
+            Gizmos.DrawWireSphere(new Vector2(position.x, position.y + extents.y), 0.2f);
+            Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top), 1);
+
+            // Bottom
+            Gizmos.DrawWireCube(position + Vector2.down, size);
+            Gizmos.DrawWireSphere(new Vector2(position.x, position.y - extents.y), 0.2f);
+            Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom), 1);
 
         }
 
