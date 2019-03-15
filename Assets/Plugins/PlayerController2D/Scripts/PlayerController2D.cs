@@ -84,6 +84,7 @@ namespace CandyCoded.PlayerController2D
         private BoxCollider2D boxCollider;
         private Vector3 extents;
 
+        private float verticalFriction;
         private float horizontalFriction;
 
         public enum STATE
@@ -257,6 +258,8 @@ namespace CandyCoded.PlayerController2D
             _velocity.x = CalculateHorizontalVelocity(_velocity.x);
 
             var bounds = CalculateMovementBounds();
+
+            CalculateFriction();
 
             position = MoveStep(bounds);
 
@@ -511,19 +514,6 @@ namespace CandyCoded.PlayerController2D
             var hitBottomRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.down, 1f, layerMask.bottom)
                 .FirstOrDefault(h => h.point.y < boxCollider.bounds.min.y);
 
-            if (hitBottomRay)
-            {
-
-                horizontalFriction = hitBottomRay.collider.friction;
-
-            }
-            else
-            {
-
-                horizontalFriction = 0;
-
-            }
-
             var bounds = new MovementBounds
             {
                 left = hitLeftRay && hitLeftRay.point.x < boxCollider.bounds.min.x ? hitLeftRay.point.x : Mathf.NegativeInfinity,
@@ -533,6 +523,24 @@ namespace CandyCoded.PlayerController2D
             };
 
             return bounds;
+
+        }
+
+        private void CalculateFriction()
+        {
+
+            var hitLeftRay = Physics2D.CircleCast(new Vector2(position.x - extents.x, position.y), frictionRaycastRadius, Vector2.zero, 0, layerMask.left);
+            var hitRightRay = Physics2D.CircleCast(new Vector2(position.x + extents.x, position.y), frictionRaycastRadius, Vector2.zero, 0, layerMask.right);
+            var hitTopRay = Physics2D.CircleCast(new Vector2(position.x, position.y + extents.y), frictionRaycastRadius, Vector2.zero, 0, layerMask.top);
+            var hitBottomRay = Physics2D.CircleCast(new Vector2(position.x, position.y - extents.y), frictionRaycastRadius, Vector2.zero, 0, layerMask.bottom);
+
+            if (hitLeftRay) verticalFriction = hitLeftRay.collider.friction;
+            else if (hitRightRay) verticalFriction = hitRightRay.collider.friction;
+            else verticalFriction = 0;
+
+            if (hitTopRay) horizontalFriction = hitTopRay.collider.friction;
+            else if (hitBottomRay) horizontalFriction = hitBottomRay.collider.friction;
+            else horizontalFriction = 0;
 
         }
 
