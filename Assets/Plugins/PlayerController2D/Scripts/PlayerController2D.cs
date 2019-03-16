@@ -93,6 +93,9 @@ namespace CandyCoded.PlayerController2D
         private float verticalFriction;
         private float horizontalFriction;
 
+        private Vector2 verticalExtents;
+        private Vector2 horizontalExtents;
+
         public enum STATE
         {
             Idle,
@@ -139,6 +142,9 @@ namespace CandyCoded.PlayerController2D
             boxCollider = gameObject.GetComponent<BoxCollider2D>();
 
             extents = boxCollider.bounds.extents;
+
+            verticalExtents = new Vector2(0, extents.y);
+            horizontalExtents = new Vector2(extents.x, 0);
 
         }
 
@@ -535,10 +541,10 @@ namespace CandyCoded.PlayerController2D
         private void CalculateFriction()
         {
 
-            var hitLeftRay = Physics2D.CircleCast(new Vector2(position.x - extents.x, position.y), frictionRaycastRadius, Vector2.zero, 0, layerMask.left);
-            var hitRightRay = Physics2D.CircleCast(new Vector2(position.x + extents.x, position.y), frictionRaycastRadius, Vector2.zero, 0, layerMask.right);
-            var hitTopRay = Physics2D.CircleCast(new Vector2(position.x, position.y + extents.y), frictionRaycastRadius, Vector2.zero, 0, layerMask.top);
-            var hitBottomRay = Physics2D.CircleCast(new Vector2(position.x, position.y - extents.y), frictionRaycastRadius, Vector2.zero, 0, layerMask.bottom);
+            var hitLeftRay = Physics2D.CircleCast(position - horizontalExtents, frictionRaycastRadius, Vector2.zero, 0, layerMask.left);
+            var hitRightRay = Physics2D.CircleCast(position + horizontalExtents, frictionRaycastRadius, Vector2.zero, 0, layerMask.right);
+            var hitTopRay = Physics2D.CircleCast(position - verticalExtents, frictionRaycastRadius, Vector2.zero, 0, layerMask.top);
+            var hitBottomRay = Physics2D.CircleCast(position + verticalExtents, frictionRaycastRadius, Vector2.zero, 0, layerMask.bottom);
 
             if (hitLeftRay) verticalFriction = hitLeftRay.collider.friction;
             else if (hitRightRay) verticalFriction = hitRightRay.collider.friction;
@@ -560,6 +566,9 @@ namespace CandyCoded.PlayerController2D
 
                 extents = boxCollider.bounds.extents;
 
+                verticalExtents = new Vector2(0, extents.y);
+                horizontalExtents = new Vector2(extents.x, 0);
+
                 var size = boxCollider.bounds.size;
 
                 position = gameObject.transform.position;
@@ -570,22 +579,22 @@ namespace CandyCoded.PlayerController2D
 
                 // Left
                 Gizmos.DrawWireCube(position + Vector2.left, size);
-                Gizmos.DrawWireSphere(new Vector2(position.x - extents.x, position.y), frictionRaycastRadius);
+                Gizmos.DrawWireSphere(position - horizontalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(bounds.left, position.y), 1);
 
                 // Right
                 Gizmos.DrawWireCube(position + Vector2.right, size);
-                Gizmos.DrawWireSphere(new Vector2(position.x + extents.x, position.y), frictionRaycastRadius);
+                Gizmos.DrawWireSphere(position + horizontalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(bounds.right, position.y), 1);
 
                 // Top
                 Gizmos.DrawWireCube(position + Vector2.up, size);
-                Gizmos.DrawWireSphere(new Vector2(position.x, position.y + extents.y), frictionRaycastRadius);
+                Gizmos.DrawWireSphere(position - verticalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top), 1);
 
                 // Bottom
                 Gizmos.DrawWireCube(position + Vector2.down, size);
-                Gizmos.DrawWireSphere(new Vector2(position.x, position.y - extents.y), frictionRaycastRadius);
+                Gizmos.DrawWireSphere(position + verticalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom), 1);
 
             }
