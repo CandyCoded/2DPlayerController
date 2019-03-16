@@ -48,6 +48,12 @@ namespace CandyCoded.PlayerController2D
 
         public LayerMaskGroup layerMask = new LayerMaskGroup();
 
+
+#pragma warning disable CS0649
+        [SerializeField]
+        private bool displayDebugColliders;
+#pragma warning restore CS0649
+
         public UnityEvent IdleSwitch;
         public UnityEvent IdleLoop;
 
@@ -547,37 +553,42 @@ namespace CandyCoded.PlayerController2D
         private void OnDrawGizmos()
         {
 
-            boxCollider = gameObject.GetComponent<BoxCollider2D>();
+            if (displayDebugColliders)
+            {
 
-            extents = boxCollider.bounds.extents;
+                boxCollider = gameObject.GetComponent<BoxCollider2D>();
 
-            var size = boxCollider.bounds.size;
+                extents = boxCollider.bounds.extents;
 
-            position = gameObject.transform.position;
+                var size = boxCollider.bounds.size;
 
-            var bounds = CalculateMovementBounds();
+                position = gameObject.transform.position;
 
-            Gizmos.color = Color.green;
+                var bounds = CalculateMovementBounds();
 
-            // Left
-            Gizmos.DrawWireCube(position + Vector2.left, size);
-            Gizmos.DrawWireSphere(new Vector2(position.x - extents.x, position.y), frictionRaycastRadius);
-            Gizmos.DrawWireSphere(new Vector2(bounds.left, position.y), 1);
+                Gizmos.color = Color.green;
 
-            // Right
-            Gizmos.DrawWireCube(position + Vector2.right, size);
-            Gizmos.DrawWireSphere(new Vector2(position.x + extents.x, position.y), frictionRaycastRadius);
-            Gizmos.DrawWireSphere(new Vector2(bounds.right, position.y), 1);
+                // Left
+                Gizmos.DrawWireCube(position + Vector2.left, size);
+                Gizmos.DrawWireSphere(new Vector2(position.x - extents.x, position.y), frictionRaycastRadius);
+                Gizmos.DrawWireSphere(new Vector2(bounds.left, position.y), 1);
 
-            // Top
-            Gizmos.DrawWireCube(position + Vector2.up, size);
-            Gizmos.DrawWireSphere(new Vector2(position.x, position.y + extents.y), frictionRaycastRadius);
-            Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top), 1);
+                // Right
+                Gizmos.DrawWireCube(position + Vector2.right, size);
+                Gizmos.DrawWireSphere(new Vector2(position.x + extents.x, position.y), frictionRaycastRadius);
+                Gizmos.DrawWireSphere(new Vector2(bounds.right, position.y), 1);
 
-            // Bottom
-            Gizmos.DrawWireCube(position + Vector2.down, size);
-            Gizmos.DrawWireSphere(new Vector2(position.x, position.y - extents.y), frictionRaycastRadius);
-            Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom), 1);
+                // Top
+                Gizmos.DrawWireCube(position + Vector2.up, size);
+                Gizmos.DrawWireSphere(new Vector2(position.x, position.y + extents.y), frictionRaycastRadius);
+                Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top), 1);
+
+                // Bottom
+                Gizmos.DrawWireCube(position + Vector2.down, size);
+                Gizmos.DrawWireSphere(new Vector2(position.x, position.y - extents.y), frictionRaycastRadius);
+                Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom), 1);
+
+            }
 
         }
 
