@@ -504,8 +504,8 @@ namespace CandyCoded.PlayerController2D
 
             nextPosition += _velocity * Time.fixedDeltaTime;
 
-            nextPosition.x = Mathf.Clamp(nextPosition.x, bounds.left + extents.x, bounds.right - extents.x);
-            nextPosition.y = Mathf.Clamp(nextPosition.y, bounds.bottom + extents.y, bounds.top - extents.y);
+            nextPosition.x = Mathf.Clamp(nextPosition.x, bounds.left + extents.x + 0.01f, bounds.right - extents.x - 0.01f);
+            nextPosition.y = Mathf.Clamp(nextPosition.y, bounds.bottom + extents.y + 0.01f, bounds.top - extents.y - 0.01f);
 
             return nextPosition;
 
