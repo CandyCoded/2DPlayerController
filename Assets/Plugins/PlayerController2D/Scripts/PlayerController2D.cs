@@ -48,7 +48,6 @@ namespace CandyCoded.PlayerController2D
 
         public LayerMaskGroup layerMask = new LayerMaskGroup();
 
-
 #pragma warning disable CS0649
         [SerializeField]
         private bool displayDebugColliders;
