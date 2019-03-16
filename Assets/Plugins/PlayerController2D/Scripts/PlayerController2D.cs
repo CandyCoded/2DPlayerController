@@ -517,13 +517,13 @@ namespace CandyCoded.PlayerController2D
 
             var size = boxCollider.bounds.size;
 
-            var hitLeftRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.left, 1f, layerMask.left)
+            var hitLeftRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.left, size.x, layerMask.left)
                 .FirstOrDefault(h => h.point.x < boxCollider.bounds.min.x);
-            var hitRightRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.right, 1f, layerMask.right)
+            var hitRightRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.right, size.x, layerMask.right)
                 .FirstOrDefault(h => h.point.x > boxCollider.bounds.max.x);
-            var hitTopRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.up, 1f, layerMask.top)
+            var hitTopRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.up, size.y, layerMask.top)
                 .FirstOrDefault(h => h.point.y > boxCollider.bounds.max.y);
-            var hitBottomRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.down, 1f, layerMask.bottom)
+            var hitBottomRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.down, size.y, layerMask.bottom)
                 .FirstOrDefault(h => h.point.y < boxCollider.bounds.min.y);
 
             var bounds = new MovementBounds
@@ -578,22 +578,22 @@ namespace CandyCoded.PlayerController2D
                 Gizmos.color = Color.green;
 
                 // Left
-                Gizmos.DrawWireCube(position + Vector2.left, size);
+                Gizmos.DrawWireCube(position + Vector2.left * size.x, size);
                 Gizmos.DrawWireSphere(position - horizontalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(bounds.left, position.y), 1);
 
                 // Right
-                Gizmos.DrawWireCube(position + Vector2.right, size);
+                Gizmos.DrawWireCube(position + Vector2.right * size.x, size);
                 Gizmos.DrawWireSphere(position + horizontalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(bounds.right, position.y), 1);
 
                 // Top
-                Gizmos.DrawWireCube(position + Vector2.up, size);
+                Gizmos.DrawWireCube(position + Vector2.up * size.y, size);
                 Gizmos.DrawWireSphere(position - verticalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top), 1);
 
                 // Bottom
-                Gizmos.DrawWireCube(position + Vector2.down, size);
+                Gizmos.DrawWireCube(position + Vector2.down * size.y, size);
                 Gizmos.DrawWireSphere(position + verticalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom), 1);
 
