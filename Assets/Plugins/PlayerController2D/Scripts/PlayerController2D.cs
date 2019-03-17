@@ -186,20 +186,26 @@ namespace CandyCoded.PlayerController2D
 
         }
 
-        private void StateIdleSwitch()
+        private void Loop()
         {
 
-            _velocity.x = 0;
-            _velocity.y = 0;
-
-            IdleSwitch?.Invoke();
-
-        }
-
-        private void StateIdleLoop()
-        {
+            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
+            _velocity.y = CalculateVerticalVelocity(_velocity.y);
 
             var bounds = CalculateMovementBounds();
+
+            CalculateFriction();
+
+            position = MoveStep(bounds);
+
+            if (IsIdle(bounds))
+            {
+
+                state = STATE.Idle;
+
+                return;
+
+            }
 
             if (IsFalling(bounds))
             {
@@ -227,6 +233,23 @@ namespace CandyCoded.PlayerController2D
                 return;
 
             }
+
+        }
+
+        private void StateIdleSwitch()
+        {
+
+            _velocity.x = 0;
+            _velocity.y = 0;
+
+            IdleSwitch?.Invoke();
+
+        }
+
+        private void StateIdleLoop()
+        {
+
+            Loop();
 
             IdleLoop?.Invoke();
 
@@ -266,40 +289,7 @@ namespace CandyCoded.PlayerController2D
         private void StateRunningLoop()
         {
 
-            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
-
-            var bounds = CalculateMovementBounds();
-
-            CalculateFriction();
-
-            position = MoveStep(bounds);
-
-            if (IsIdle(bounds))
-            {
-
-                state = STATE.Idle;
-
-                return;
-
-            }
-
-            if (IsFalling(bounds))
-            {
-
-                state = STATE.Falling;
-
-                return;
-
-            }
-
-            if (IsJumping())
-            {
-
-                state = STATE.Jumping;
-
-                return;
-
-            }
+            Loop();
 
             RunningLoop?.Invoke();
 
@@ -326,30 +316,7 @@ namespace CandyCoded.PlayerController2D
         private void StateFallingLoop()
         {
 
-            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
-            _velocity.y = CalculateVerticalVelocity(_velocity.y);
-
-            var bounds = CalculateMovementBounds();
-
-            position = MoveStep(bounds);
-
-            if (IsIdle(bounds))
-            {
-
-                state = STATE.Idle;
-
-                return;
-
-            }
-
-            if (IsRunning(bounds))
-            {
-
-                state = STATE.Running;
-
-                return;
-
-            }
+            Loop();
 
             FallingLoop?.Invoke();
 
@@ -374,39 +341,7 @@ namespace CandyCoded.PlayerController2D
         private void StateJumpingLoop()
         {
 
-            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
-            _velocity.y = CalculateVerticalVelocity(_velocity.y);
-
-            var bounds = CalculateMovementBounds();
-
-            position = MoveStep(bounds);
-
-            if (IsIdle(bounds))
-            {
-
-                state = STATE.Idle;
-
-                return;
-
-            }
-
-            if (IsFalling(bounds))
-            {
-
-                state = STATE.Falling;
-
-                return;
-
-            }
-
-            if (IsRunning(bounds))
-            {
-
-                state = STATE.Running;
-
-                return;
-
-            }
+            Loop();
 
             JumpingLoop?.Invoke();
 
