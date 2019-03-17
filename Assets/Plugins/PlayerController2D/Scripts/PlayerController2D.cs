@@ -168,8 +168,8 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.Running)) StateRunningSwitch();
             else if (state.Equals(STATE.Falling)) StateFallingSwitch();
             else if (state.Equals(STATE.Jumping)) StateJumpingSwitch();
-            else if (state.Equals(STATE.WallSlide)) StateWallSlideSwitch();
-            else if (state.Equals(STATE.WallStick)) StateWallStickSwitch();
+            else if (state.Equals(STATE.WallSlide)) StateWallSlidingSwitch();
+            else if (state.Equals(STATE.WallStick)) StateWallStickingSwitch();
 
         }
 
@@ -181,8 +181,8 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.Running)) StateRunningLoop();
             else if (state.Equals(STATE.Falling)) StateFallingLoop();
             else if (state.Equals(STATE.Jumping)) StateJumpingLoop();
-            else if (state.Equals(STATE.WallSlide)) StateWallSlideLoop();
-            else if (state.Equals(STATE.WallStick)) StateWallStickLoop();
+            else if (state.Equals(STATE.WallSlide)) StateWallSlidingLoop();
+            else if (state.Equals(STATE.WallStick)) StateWallStickingLoop();
 
         }
 
@@ -353,42 +353,42 @@ namespace CandyCoded.PlayerController2D
 
         }
 
-        private void StateWallSlideSwitch()
+        private void StateWallSlidingSwitch()
         {
 
             WallSlideSwitch?.Invoke();
 
         }
 
-        private void StateWallSlideLoop()
+        private void StateWallSlidingLoop()
         {
 
             WallSlideLoop?.Invoke();
 
         }
 
-        private void StateWallStickSwitch()
+        private void StateWallStickingSwitch()
         {
 
             WallStickSwitch?.Invoke();
 
         }
 
-        private void StateWallStickLoop()
+        private void StateWallStickingLoop()
         {
 
             WallStickLoop?.Invoke();
 
         }
 
-        private void StateWallJumpSwitch()
+        private void StateWallJumpingSwitch()
         {
 
             WallJumpSwitch?.Invoke();
 
         }
 
-        private void StateWallDismountSwitch()
+        private void StateWallDismountingSwitch()
         {
 
             WallDismountSwitch?.Invoke();
