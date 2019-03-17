@@ -207,6 +207,15 @@ namespace CandyCoded.PlayerController2D
 
             }
 
+            if (IsWallSliding(bounds))
+            {
+
+                state = STATE.WallSliding;
+
+                return;
+
+            }
+
             if (IsFalling(bounds))
             {
 
@@ -324,7 +333,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsFalling(MovementBounds bounds)
         {
 
-            return !state.Equals(STATE.Falling) && (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) && _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
+            return !state.Equals(STATE.Falling) && !state.Equals(STATE.WallSliding) && (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) && _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
 
         }
 
@@ -363,7 +372,20 @@ namespace CandyCoded.PlayerController2D
         private void StateWallSlidingLoop()
         {
 
+            _velocity.x = 0;
+
+            Loop();
+
             WallSlideLoop?.Invoke();
+
+        }
+
+        private bool IsWallSliding(MovementBounds bounds)
+        {
+
+            return !state.Equals(STATE.WallSliding) &&
+                (position.x.NearlyEqual(bounds.left) || position.x.NearlyEqual(bounds.right)) &&
+                (!position.y.NearlyEqual(bounds.top) && !position.y.NearlyEqual(bounds.bottom));
 
         }
 
