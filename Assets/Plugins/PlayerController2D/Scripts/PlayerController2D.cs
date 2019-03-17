@@ -483,10 +483,10 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = new MovementBounds
             {
-                left = hitLeftRay && hitLeftRay.point.x < boxCollider.bounds.min.x ? hitLeftRay.point.x + extents.x : Mathf.NegativeInfinity,
-                right = hitRightRay && hitRightRay.point.x > boxCollider.bounds.max.x ? hitRightRay.point.x - extents.x : Mathf.Infinity,
-                top = hitTopRay && hitTopRay.point.y > boxCollider.bounds.max.y ? hitTopRay.point.y - extents.y : Mathf.Infinity,
-                bottom = hitBottomRay && hitBottomRay.point.y < boxCollider.bounds.min.y ? hitBottomRay.point.y + extents.y : Mathf.NegativeInfinity
+                left = hitLeftRay ? hitLeftRay.point.x + extents.x : Mathf.NegativeInfinity,
+                right = hitRightRay ? hitRightRay.point.x - extents.x : Mathf.Infinity,
+                top = hitTopRay ? hitTopRay.point.y - extents.y : Mathf.Infinity,
+                bottom = hitBottomRay ? hitBottomRay.point.y + extents.y : Mathf.NegativeInfinity
             };
 
             return bounds;
