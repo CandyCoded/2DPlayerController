@@ -236,7 +236,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsIdle(MovementBounds bounds)
         {
 
-            return bounds.bottom.NearlyEqual(position.y - extents.y) && _velocity.x.NearlyEqual(0);
+            return bounds.bottom.NearlyEqual(position.y) && _velocity.x.NearlyEqual(0);
 
         }
 
@@ -308,9 +308,9 @@ namespace CandyCoded.PlayerController2D
         private bool IsRunning(MovementBounds bounds)
         {
 
-            return bounds.bottom.NearlyEqual(position.y - extents.y) &&
+            return bounds.bottom.NearlyEqual(position.y) &&
                 (Mathf.Abs(inputManager.inputHorizontal) > 0 || Mathf.Abs(_velocity.x) > 0) &&
-                (bounds.right > position.x + extents.x || bounds.left < position.x - extents.x);
+                (bounds.right > position.x || bounds.left < position.x);
 
         }
 
@@ -358,7 +358,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsFalling(MovementBounds bounds)
         {
 
-            return (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom + extents.y)) && _velocity.y <= 0 || position.y.NearlyEqual(bounds.top - extents.y);
+            return (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) && _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
 
         }
 
@@ -504,8 +504,8 @@ namespace CandyCoded.PlayerController2D
 
             nextPosition += _velocity * Time.fixedDeltaTime;
 
-            nextPosition.x = Mathf.Clamp(nextPosition.x, bounds.left + extents.x + 0.01f, bounds.right - extents.x - 0.01f);
-            nextPosition.y = Mathf.Clamp(nextPosition.y, bounds.bottom + extents.y + 0.01f, bounds.top - extents.y - 0.01f);
+            nextPosition.x = Mathf.Clamp(nextPosition.x, bounds.left + 0.01f, bounds.right - 0.01f);
+            nextPosition.y = Mathf.Clamp(nextPosition.y, bounds.bottom + 0.01f, bounds.top - 0.01f);
 
             return nextPosition;
 
@@ -527,10 +527,10 @@ namespace CandyCoded.PlayerController2D
 
             var bounds = new MovementBounds
             {
-                left = hitLeftRay && hitLeftRay.point.x < boxCollider.bounds.min.x ? hitLeftRay.point.x : Mathf.NegativeInfinity,
-                right = hitRightRay && hitRightRay.point.x > boxCollider.bounds.max.x ? hitRightRay.point.x : Mathf.Infinity,
-                top = hitTopRay && hitTopRay.point.y > boxCollider.bounds.max.y ? hitTopRay.point.y : Mathf.Infinity,
-                bottom = hitBottomRay && hitBottomRay.point.y < boxCollider.bounds.min.y ? hitBottomRay.point.y : Mathf.NegativeInfinity
+                left = hitLeftRay && hitLeftRay.point.x < boxCollider.bounds.min.x ? hitLeftRay.point.x + extents.x : Mathf.NegativeInfinity,
+                right = hitRightRay && hitRightRay.point.x > boxCollider.bounds.max.x ? hitRightRay.point.x - extents.x : Mathf.Infinity,
+                top = hitTopRay && hitTopRay.point.y > boxCollider.bounds.max.y ? hitTopRay.point.y - extents.y : Mathf.Infinity,
+                bottom = hitBottomRay && hitBottomRay.point.y < boxCollider.bounds.min.y ? hitBottomRay.point.y + extents.y : Mathf.NegativeInfinity
             };
 
             return bounds;
@@ -579,22 +579,22 @@ namespace CandyCoded.PlayerController2D
                 // Left
                 Gizmos.DrawWireCube(position + Vector2.left * size.x, size);
                 Gizmos.DrawWireSphere(position - horizontalExtents, frictionRaycastRadius);
-                Gizmos.DrawWireSphere(new Vector2(bounds.left, position.y), 1);
+                Gizmos.DrawWireSphere(new Vector2(bounds.left - extents.x, position.y), 1);
 
                 // Right
                 Gizmos.DrawWireCube(position + Vector2.right * size.x, size);
                 Gizmos.DrawWireSphere(position + horizontalExtents, frictionRaycastRadius);
-                Gizmos.DrawWireSphere(new Vector2(bounds.right, position.y), 1);
+                Gizmos.DrawWireSphere(new Vector2(bounds.right + extents.x, position.y), 1);
 
                 // Top
                 Gizmos.DrawWireCube(position + Vector2.up * size.y, size);
                 Gizmos.DrawWireSphere(position - verticalExtents, frictionRaycastRadius);
-                Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top), 1);
+                Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top + extents.y), 1);
 
                 // Bottom
                 Gizmos.DrawWireCube(position + Vector2.down * size.y, size);
                 Gizmos.DrawWireSphere(position + verticalExtents, frictionRaycastRadius);
-                Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom), 1);
+                Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom - extents.y), 1);
 
             }
 
