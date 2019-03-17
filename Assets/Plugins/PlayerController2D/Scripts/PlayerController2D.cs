@@ -236,7 +236,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsIdle(MovementBounds bounds)
         {
 
-            return bounds.bottom.NearlyEqual(position.y) && _velocity.x.NearlyEqual(0);
+            return !state.Equals(STATE.Idle) && bounds.bottom.NearlyEqual(position.y) && _velocity.x.NearlyEqual(0);
 
         }
 
@@ -308,7 +308,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsRunning(MovementBounds bounds)
         {
 
-            return bounds.bottom.NearlyEqual(position.y) &&
+            return !state.Equals(STATE.Running) && bounds.bottom.NearlyEqual(position.y) &&
                 (Mathf.Abs(inputManager.inputHorizontal) > 0 || Mathf.Abs(_velocity.x) > 0) &&
                 (bounds.right > position.x || bounds.left < position.x);
 
@@ -358,7 +358,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsFalling(MovementBounds bounds)
         {
 
-            return (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) && _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
+            return !state.Equals(STATE.Falling) && (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) && _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
 
         }
 
@@ -415,7 +415,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsJumping()
         {
 
-            return inputManager.inputJumpDown;
+            return !state.Equals(STATE.Jumping) && inputManager.inputJumpDown;
 
         }
 
