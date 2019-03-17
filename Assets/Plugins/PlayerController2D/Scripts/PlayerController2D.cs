@@ -255,7 +255,6 @@ namespace CandyCoded.PlayerController2D
 
         }
 
-
         private bool IsIdle(MovementBounds bounds)
         {
 
