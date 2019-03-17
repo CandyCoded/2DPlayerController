@@ -102,8 +102,8 @@ namespace CandyCoded.PlayerController2D
             Running,
             Falling,
             Jumping,
-            WallSlide,
-            WallStick,
+            WallSliding,
+            WallSticking,
             WallJump,
             WallDismount
         }
@@ -168,8 +168,8 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.Running)) StateRunningSwitch();
             else if (state.Equals(STATE.Falling)) StateFallingSwitch();
             else if (state.Equals(STATE.Jumping)) StateJumpingSwitch();
-            else if (state.Equals(STATE.WallSlide)) StateWallSlidingSwitch();
-            else if (state.Equals(STATE.WallStick)) StateWallStickingSwitch();
+            else if (state.Equals(STATE.WallSliding)) StateWallSlidingSwitch();
+            else if (state.Equals(STATE.WallSticking)) StateWallStickingSwitch();
 
         }
 
@@ -181,8 +181,8 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.Running)) StateRunningLoop();
             else if (state.Equals(STATE.Falling)) StateFallingLoop();
             else if (state.Equals(STATE.Jumping)) StateJumpingLoop();
-            else if (state.Equals(STATE.WallSlide)) StateWallSlidingLoop();
-            else if (state.Equals(STATE.WallStick)) StateWallStickingLoop();
+            else if (state.Equals(STATE.WallSliding)) StateWallSlidingLoop();
+            else if (state.Equals(STATE.WallSticking)) StateWallStickingLoop();
 
         }
 
