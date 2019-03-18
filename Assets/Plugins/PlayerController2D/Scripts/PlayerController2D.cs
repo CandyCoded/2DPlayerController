@@ -186,11 +186,11 @@ namespace CandyCoded.PlayerController2D
 
         }
 
-        private void Loop()
+        private void Loop(bool freezeVelocityX = false, bool freezeVelocityY = false)
         {
 
-            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
-            _velocity.y = CalculateVerticalVelocity(_velocity.y);
+            if (!freezeVelocityX) _velocity.x = CalculateHorizontalVelocity(_velocity.x);
+            if (!freezeVelocityY) _velocity.y = CalculateVerticalVelocity(_velocity.y);
 
             var bounds = CalculateMovementBounds();
 
@@ -258,7 +258,7 @@ namespace CandyCoded.PlayerController2D
         private void StateIdleLoop()
         {
 
-            Loop();
+            Loop(freezeVelocityX: true, freezeVelocityY: true);
 
             IdleLoop?.Invoke();
 
@@ -297,7 +297,7 @@ namespace CandyCoded.PlayerController2D
         private void StateRunningLoop()
         {
 
-            Loop();
+            Loop(freezeVelocityY: true);
 
             RunningLoop?.Invoke();
 
@@ -374,7 +374,7 @@ namespace CandyCoded.PlayerController2D
 
             _velocity.x = 0;
 
-            Loop();
+            Loop(freezeVelocityX: true);
 
             WallSlideLoop?.Invoke();
 
