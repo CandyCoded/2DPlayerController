@@ -32,7 +32,7 @@ namespace CandyCoded.PlayerController2D
         public const float DEFAULT_HORIZONTAL_RESISTANCE = 0.02f;
         public const float DEFAULT_LOW_JUMP_SPEED = 10.0f;
         public const float DEFAULT_HIGH_JUMP_SPEED = 15.0f;
-        public const float DEFAULT_GRAVITY_MULTIPLIER = 2f;
+        public const float DEFAULT_GRAVITY = -60f;
         public const float DEFAULT_WALL_SLIDE_SPEED = -2.0f;
         public const float DEFAULT_WALL_STICK_TRANSITION_DELAY = 0.2f;
         public const int DEFAULT_MAX_AVAILABLE_JUMPS = 2;
@@ -41,7 +41,7 @@ namespace CandyCoded.PlayerController2D
         public float horizontalResistance = DEFAULT_HORIZONTAL_RESISTANCE;
         public float lowJumpSpeed = DEFAULT_LOW_JUMP_SPEED;
         public float highJumpSpeed = DEFAULT_HIGH_JUMP_SPEED;
-        public float gravityMultiplier = DEFAULT_GRAVITY_MULTIPLIER;
+        public float gravity = DEFAULT_GRAVITY;
         public float wallSlideSpeed = DEFAULT_WALL_SLIDE_SPEED;
         public float wallStickTransitionDelay = DEFAULT_WALL_STICK_TRANSITION_DELAY;
         public int maxAvailableJumps = DEFAULT_MAX_AVAILABLE_JUMPS;
@@ -447,7 +447,7 @@ namespace CandyCoded.PlayerController2D
         private float CalculateVerticalVelocity(float velocityY)
         {
 
-            velocityY = Mathf.Max(velocityY + Physics2D.gravity.y * gravityMultiplier * Time.deltaTime, Physics2D.gravity.y);
+            velocityY = Mathf.Max(velocityY + gravity * Time.deltaTime, Physics2D.gravity.y);
 
             return velocityY;
 
