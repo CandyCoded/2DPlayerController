@@ -365,14 +365,14 @@ namespace CandyCoded.PlayerController2D
         private void StateWallSlidingSwitch()
         {
 
+            _velocity.x = 0;
+
             WallSlideSwitch?.Invoke();
 
         }
 
         private void StateWallSlidingLoop()
         {
-
-            _velocity.x = 0;
 
             Loop(freezeVelocityX: true);
 
