@@ -439,7 +439,7 @@ MonoBehaviour:
   horizontalResistance: 0.02
   lowJumpSpeed: 10
   highJumpSpeed: 15
-  gravityMultiplier: 2
+  gravity: -60
   wallSlideSpeed: -2
   wallStickTransitionDelay: 0.2
   maxAvailableJumps: 2
