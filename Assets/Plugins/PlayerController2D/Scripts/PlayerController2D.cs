@@ -11,6 +11,11 @@ namespace CandyCoded.PlayerController2D
     public class PlayerController2D : MonoBehaviour
     {
 
+        [Serializable]
+        public class EventWithState : UnityEvent<STATE>
+        {
+        }
+
         public struct MovementBounds
         {
             public float left;
@@ -52,6 +57,9 @@ namespace CandyCoded.PlayerController2D
         [SerializeField]
         private bool displayDebugColliders;
 #pragma warning restore CS0649
+
+        public EventWithState StateSwitch;
+        public EventWithState StateLoop;
 
         public UnityEvent IdleSwitch;
         public UnityEvent IdleLoop;
@@ -173,6 +181,8 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.WallSticking)) StateWallStickingSwitch();
             else if (state.Equals(STATE.WallDismount)) StateWallDismountSwitch();
 
+            StateSwitch?.Invoke(state);
+
         }
 
         private void RunStateLoop()
@@ -184,6 +194,8 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.VerticalMovement)) StateVerticalMovementLoop();
             else if (state.Equals(STATE.WallSliding)) StateWallSlidingLoop();
             else if (state.Equals(STATE.WallSticking)) StateWallStickingLoop();
+
+            StateLoop?.Invoke(state);
 
         }
 
