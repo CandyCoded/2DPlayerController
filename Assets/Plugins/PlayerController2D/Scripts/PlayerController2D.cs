@@ -229,6 +229,15 @@ namespace CandyCoded.PlayerController2D
 
             }
 
+            if (IsVerticalMovement(bounds))
+            {
+
+                state = STATE.VerticalMovement;
+
+                return;
+
+            }
+
             if (IsRunning(bounds))
             {
 
@@ -344,6 +353,16 @@ namespace CandyCoded.PlayerController2D
         {
 
             Loop();
+
+        }
+
+        private bool IsVerticalMovement(MovementBounds bounds)
+        {
+
+            return !state.Equals(STATE.VerticalMovement) &&
+                !_velocity.y.NearlyEqual(0) &&
+                !position.x.NearlyEqual(bounds.left) &&
+                !position.x.NearlyEqual(bounds.right);
 
         }
 
