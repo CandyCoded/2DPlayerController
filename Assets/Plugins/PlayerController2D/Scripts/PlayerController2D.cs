@@ -62,11 +62,11 @@ namespace CandyCoded.PlayerController2D
         public UnityEvent RunningSwitch;
         public UnityEvent RunningLoop;
 
-        public UnityEvent FallingSwitch;
-        public UnityEvent FallingLoop;
+        public UnityEvent FallSwitch;
 
-        public UnityEvent JumpingSwitch;
-        public UnityEvent JumpingLoop;
+        public UnityEvent JumpSwitch;
+
+        public UnityEvent VerticalMovementLoop;
 
         public UnityEvent WallSlideSwitch;
         public UnityEvent WallSlideLoop;
@@ -100,8 +100,9 @@ namespace CandyCoded.PlayerController2D
             Idle,
             Walking,
             Running,
-            Falling,
-            Jumping,
+            Fall,
+            Jump,
+            VerticalMovement,
             WallSliding,
             WallSticking,
             WallJump,
@@ -166,8 +167,8 @@ namespace CandyCoded.PlayerController2D
             if (state.Equals(STATE.Idle)) StateIdleSwitch();
             else if (state.Equals(STATE.Walking)) StateWalkingSwitch();
             else if (state.Equals(STATE.Running)) StateRunningSwitch();
-            else if (state.Equals(STATE.Falling)) StateFallingSwitch();
-            else if (state.Equals(STATE.Jumping)) StateJumpingSwitch();
+            else if (state.Equals(STATE.Fall)) StateFallSwitch();
+            else if (state.Equals(STATE.Jump)) StateJumpSwitch();
             else if (state.Equals(STATE.WallSliding)) StateWallSlidingSwitch();
             else if (state.Equals(STATE.WallSticking)) StateWallStickingSwitch();
 
@@ -179,8 +180,7 @@ namespace CandyCoded.PlayerController2D
             if (state.Equals(STATE.Idle)) StateIdleLoop();
             else if (state.Equals(STATE.Walking)) StateWalkingLoop();
             else if (state.Equals(STATE.Running)) StateRunningLoop();
-            else if (state.Equals(STATE.Falling)) StateFallingLoop();
-            else if (state.Equals(STATE.Jumping)) StateJumpingLoop();
+            else if (state.Equals(STATE.VerticalMovement)) StateVerticalMovementLoop();
             else if (state.Equals(STATE.WallSliding)) StateWallSlidingLoop();
             else if (state.Equals(STATE.WallSticking)) StateWallStickingLoop();
 
@@ -219,7 +219,7 @@ namespace CandyCoded.PlayerController2D
             if (IsFalling(bounds))
             {
 
-                state = STATE.Falling;
+                state = STATE.Fall;
 
                 return;
 
@@ -237,7 +237,7 @@ namespace CandyCoded.PlayerController2D
             if (IsJumping())
             {
 
-                state = STATE.Jumping;
+                state = STATE.Jump;
 
                 return;
 
@@ -312,53 +312,48 @@ namespace CandyCoded.PlayerController2D
 
         }
 
-        private void StateFallingSwitch()
+        private void StateFallSwitch()
         {
 
             _velocity.y = 0;
 
-            FallingSwitch?.Invoke();
+            FallSwitch?.Invoke();
 
-        }
-
-        private void StateFallingLoop()
-        {
-
-            Loop();
-
-            FallingLoop?.Invoke();
+            state = STATE.VerticalMovement;
 
         }
 
         private bool IsFalling(MovementBounds bounds)
         {
 
-            return !state.Equals(STATE.Falling) && !state.Equals(STATE.WallSliding) && (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) && _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
+            return !state.Equals(STATE.VerticalMovement) && !state.Equals(STATE.WallSliding) && (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) && _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
 
         }
 
-        private void StateJumpingSwitch()
+        private void StateJumpSwitch()
         {
 
             _velocity.y = highJumpSpeed;
 
-            JumpingSwitch?.Invoke();
+            JumpSwitch?.Invoke();
 
-        }
-
-        private void StateJumpingLoop()
-        {
-
-            Loop();
-
-            JumpingLoop?.Invoke();
+            state = STATE.VerticalMovement;
 
         }
 
         private bool IsJumping()
         {
 
-            return !state.Equals(STATE.Jumping) && inputManager.inputJumpDown;
+            return !state.Equals(STATE.VerticalMovement) && inputManager.inputJumpDown;
+
+        }
+
+        private void StateVerticalMovementLoop()
+        {
+
+            Loop();
+
+            VerticalMovementLoop?.Invoke();
 
         }
 
