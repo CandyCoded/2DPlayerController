@@ -208,6 +208,15 @@ namespace CandyCoded.PlayerController2D
 
             }
 
+            if (IsWallDismounting(bounds))
+            {
+
+                state = STATE.WallDismount;
+
+                return;
+
+            }
+
             if (IsWallSliding(bounds))
             {
 
@@ -410,6 +419,19 @@ namespace CandyCoded.PlayerController2D
         {
 
             WallDismountSwitch?.Invoke();
+
+            state = STATE.VerticalMovement;
+
+        }
+
+        private bool IsWallDismounting(MovementBounds bounds)
+        {
+
+            return state.Equals(STATE.WallSliding) &&
+                (
+                    (position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal > 0) ||
+                    (position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal < 0)
+                );
 
         }
 
