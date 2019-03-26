@@ -171,6 +171,7 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.Jump)) StateJumpSwitch();
             else if (state.Equals(STATE.WallSliding)) StateWallSlidingSwitch();
             else if (state.Equals(STATE.WallSticking)) StateWallStickingSwitch();
+            else if (state.Equals(STATE.WallDismount)) StateWallDismountSwitch();
 
         }
 
@@ -405,7 +406,7 @@ namespace CandyCoded.PlayerController2D
 
         }
 
-        private void StateWallDismountingSwitch()
+        private void StateWallDismountSwitch()
         {
 
             WallDismountSwitch?.Invoke();
