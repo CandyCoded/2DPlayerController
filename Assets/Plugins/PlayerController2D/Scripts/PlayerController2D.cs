@@ -16,6 +16,11 @@ namespace CandyCoded.PlayerController2D
         {
         }
 
+        [Serializable]
+        public class EventWithStateComparison : UnityEvent<STATE, STATE>
+        {
+        }
+
         public struct MovementBounds
         {
             public float left;
@@ -58,7 +63,7 @@ namespace CandyCoded.PlayerController2D
         private bool displayDebugColliders;
 #pragma warning restore CS0649
 
-        public EventWithState StateSwitch;
+        public EventWithStateComparison StateSwitch;
         public EventWithState StateLoop;
 
         public UnityEvent IdleSwitch;
@@ -130,12 +135,16 @@ namespace CandyCoded.PlayerController2D
                 if (!_state.Equals(value))
                 {
 
+                    var previousState = _state;
+
 
                     Debug.Log(string.Format("Switched from state {0} to {1}.", _state, value));
 
                     _state = value;
 
                     RunStateSwitch();
+
+                    StateSwitch?.Invoke(previousState, value);
 
                 }
 
@@ -180,8 +189,6 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.WallSliding)) StateWallSlidingSwitch();
             else if (state.Equals(STATE.WallSticking)) StateWallStickingSwitch();
             else if (state.Equals(STATE.WallDismount)) StateWallDismountSwitch();
-
-            StateSwitch?.Invoke(state);
 
         }
 
