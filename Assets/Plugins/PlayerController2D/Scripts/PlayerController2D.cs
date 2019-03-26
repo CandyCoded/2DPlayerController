@@ -66,31 +66,6 @@ namespace CandyCoded.PlayerController2D
         public EventWithStateComparison StateSwitch;
         public EventWithState StateLoop;
 
-        public UnityEvent IdleSwitch;
-        public UnityEvent IdleLoop;
-
-        public UnityEvent WalkingSwitch;
-        public UnityEvent WalkingLoop;
-
-        public UnityEvent RunningSwitch;
-        public UnityEvent RunningLoop;
-
-        public UnityEvent FallSwitch;
-
-        public UnityEvent JumpSwitch;
-
-        public UnityEvent VerticalMovementLoop;
-
-        public UnityEvent WallSlideSwitch;
-        public UnityEvent WallSlideLoop;
-
-        public UnityEvent WallStickSwitch;
-        public UnityEvent WallStickLoop;
-
-        public UnityEvent WallJumpSwitch;
-
-        public UnityEvent WallDismountSwitch;
-
         private Vector2 _velocity = Vector2.zero;
 
         public Vector2 position { get; private set; } = Vector2.zero;
@@ -280,16 +255,12 @@ namespace CandyCoded.PlayerController2D
             _velocity.x = 0;
             _velocity.y = 0;
 
-            IdleSwitch?.Invoke();
-
         }
 
         private void StateIdleLoop()
         {
 
             Loop(freezeVelocityX: true, freezeVelocityY: true);
-
-            IdleLoop?.Invoke();
 
         }
 
@@ -303,14 +274,14 @@ namespace CandyCoded.PlayerController2D
         private void StateWalkingSwitch()
         {
 
-            WalkingSwitch?.Invoke();
+            throw new NotImplementedException();
 
         }
 
         private void StateWalkingLoop()
         {
 
-            WalkingLoop?.Invoke();
+            throw new NotImplementedException();
 
         }
 
@@ -319,16 +290,12 @@ namespace CandyCoded.PlayerController2D
 
             _velocity.y = 0;
 
-            RunningSwitch?.Invoke();
-
         }
 
         private void StateRunningLoop()
         {
 
             Loop(freezeVelocityY: true);
-
-            RunningLoop?.Invoke();
 
         }
 
@@ -346,8 +313,6 @@ namespace CandyCoded.PlayerController2D
 
             _velocity.y = 0;
 
-            FallSwitch?.Invoke();
-
             state = STATE.VerticalMovement;
 
         }
@@ -363,8 +328,6 @@ namespace CandyCoded.PlayerController2D
         {
 
             _velocity.y = highJumpSpeed;
-
-            JumpSwitch?.Invoke();
 
             state = STATE.VerticalMovement;
 
@@ -382,8 +345,6 @@ namespace CandyCoded.PlayerController2D
 
             Loop();
 
-            VerticalMovementLoop?.Invoke();
-
         }
 
         private void StateWallSlidingSwitch()
@@ -391,16 +352,12 @@ namespace CandyCoded.PlayerController2D
 
             _velocity.x = 0;
 
-            WallSlideSwitch?.Invoke();
-
         }
 
         private void StateWallSlidingLoop()
         {
 
             Loop(freezeVelocityX: true);
-
-            WallSlideLoop?.Invoke();
 
         }
 
@@ -416,28 +373,26 @@ namespace CandyCoded.PlayerController2D
         private void StateWallStickingSwitch()
         {
 
-            WallStickSwitch?.Invoke();
+            throw new NotImplementedException();
 
         }
 
         private void StateWallStickingLoop()
         {
 
-            WallStickLoop?.Invoke();
+            throw new NotImplementedException();
 
         }
 
         private void StateWallJumpingSwitch()
         {
 
-            WallJumpSwitch?.Invoke();
+            throw new NotImplementedException();
 
         }
 
         private void StateWallDismountSwitch()
         {
-
-            WallDismountSwitch?.Invoke();
 
             state = STATE.VerticalMovement;
 
