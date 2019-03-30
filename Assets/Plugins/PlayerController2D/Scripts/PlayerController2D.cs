@@ -42,7 +42,7 @@ namespace CandyCoded.PlayerController2D
         public const float DEFAULT_HORIZONTAL_RESISTANCE = 0.02f;
         public const float DEFAULT_LOW_JUMP_SPEED = 10.0f;
         public const float DEFAULT_HIGH_JUMP_SPEED = 15.0f;
-        public const float DEFAULT_GRAVITY = -60f;
+        public const float DEFAULT_GRAVITY = -30f;
         public const float DEFAULT_WALL_SLIDE_SPEED = -2.0f;
         public const float DEFAULT_WALL_STICK_TRANSITION_DELAY = 0.2f;
         public const int DEFAULT_MAX_AVAILABLE_JUMPS = 2;
