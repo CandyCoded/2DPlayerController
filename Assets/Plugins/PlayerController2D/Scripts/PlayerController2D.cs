@@ -334,7 +334,9 @@ namespace CandyCoded.PlayerController2D
         private bool IsFalling(MovementBounds bounds)
         {
 
-            return !state.Equals(STATE.VerticalMovement) && !state.Equals(STATE.WallSliding) && (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) && _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
+            return !state.Equals(STATE.VerticalMovement) && !state.Equals(STATE.WallSliding) &&
+                (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) &&
+                _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
 
         }
 
@@ -526,6 +528,7 @@ namespace CandyCoded.PlayerController2D
 
             if (hitLeftRay) friction = hitLeftRay.collider.friction;
             else if (hitRightRay) friction = hitRightRay.collider.friction;
+
             return friction;
 
         }
