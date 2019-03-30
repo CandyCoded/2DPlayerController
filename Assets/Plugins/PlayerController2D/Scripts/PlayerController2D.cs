@@ -142,14 +142,19 @@ namespace CandyCoded.PlayerController2D
 
         }
 
+        private void Update()
+        {
+
+            gameObject.transform.position = position;
+
+        }
+
         private void FixedUpdate()
         {
 
             position = gameObject.transform.position;
 
             RunStateLoop();
-
-            gameObject.transform.position = position;
 
             inputManager.Reset();
 
