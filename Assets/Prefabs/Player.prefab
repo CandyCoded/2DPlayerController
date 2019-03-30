@@ -140,6 +140,7 @@ MonoBehaviour:
   wallSlideSpeed: -2
   wallStickTransitionDelay: 0.2
   maxAvailableJumps: 2
+  edgeCollidePreventionRatio: 0.1
   layerMask:
     left:
       serializedVersion: 2
@@ -149,10 +150,10 @@ MonoBehaviour:
       m_Bits: 1024
     top:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 2048
     bottom:
       serializedVersion: 2
-      m_Bits: 2560
+      m_Bits: 3584
   displayDebugColliders: 1
   StateSwitch:
     m_PersistentCalls:
