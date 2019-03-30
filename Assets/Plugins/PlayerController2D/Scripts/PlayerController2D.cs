@@ -397,10 +397,9 @@ namespace CandyCoded.PlayerController2D
             if (position.x.NearlyEqual(bounds.left)) horizontalDirection = 1;
             else if (position.x.NearlyEqual(bounds.right)) horizontalDirection = -1;
 
-            _velocity.y = highJumpSpeed;
             _velocity.x = horizontalDirection * horizontalSpeed;
 
-            state = STATE.VerticalMovement;
+            state = STATE.Jump;
 
         }
 
