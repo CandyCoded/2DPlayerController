@@ -203,59 +203,12 @@ namespace CandyCoded.PlayerController2D
         private void LoopStateSwitch(MovementBounds bounds)
         {
 
-            if (IsIdle(bounds))
-            {
-
-                state = STATE.Idle;
-
-                return;
-
-            }
-
-            if (IsWallDismounting(bounds))
-            {
-
-                state = STATE.WallDismount;
-
-                return;
-
-            }
-
-            if (IsWallSliding(bounds))
-            {
-
-                state = STATE.WallSliding;
-
-                return;
-
-            }
-
-            if (IsFalling(bounds))
-            {
-
-                state = STATE.Fall;
-
-                return;
-
-            }
-
-            if (IsRunning(bounds))
-            {
-
-                state = STATE.Running;
-
-                return;
-
-            }
-
-            if (IsJumping())
-            {
-
-                state = STATE.Jump;
-
-                return;
-
-            }
+            if (IsIdle(bounds)) state = STATE.Idle;
+            else if (IsWallDismounting(bounds)) state = STATE.WallDismount;
+            else if (IsWallSliding(bounds)) state = STATE.WallSliding;
+            else if (IsFalling(bounds)) state = STATE.Fall;
+            else if (IsRunning(bounds)) state = STATE.Running;
+            else if (IsJumping()) state = STATE.Jump;
 
         }
 
