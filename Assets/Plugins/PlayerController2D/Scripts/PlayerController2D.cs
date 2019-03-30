@@ -183,16 +183,10 @@ namespace CandyCoded.PlayerController2D
 
         }
 
-        private void Loop(bool freezeVelocityX = false, bool freezeVelocityY = false)
+        private void Loop()
         {
 
-            if (!freezeVelocityX) _velocity.x = CalculateHorizontalVelocity(_velocity.x);
-            if (!freezeVelocityY) _velocity.y = CalculateVerticalVelocity(_velocity.y);
-
             var bounds = CalculateMovementBounds();
-
-            horizontalFriction = CalculateHorizontalFriction();
-            verticalFriction = CalculateVerticalFriction();
 
             position = MoveStep(bounds);
 
@@ -218,6 +212,9 @@ namespace CandyCoded.PlayerController2D
             _velocity.x = 0;
             _velocity.y = 0;
 
+            horizontalFriction = 0;
+            verticalFriction = 0;
+
             currentAvailableJumps = maxAvailableJumps;
 
         }
@@ -225,7 +222,7 @@ namespace CandyCoded.PlayerController2D
         private void StateIdleLoop()
         {
 
-            Loop(freezeVelocityX: true, freezeVelocityY: true);
+            Loop();
 
         }
 
@@ -253,7 +250,11 @@ namespace CandyCoded.PlayerController2D
         private void StateRunningSwitch()
         {
 
+            _velocity.x = 0;
             _velocity.y = 0;
+
+            horizontalFriction = 0;
+            verticalFriction = 0;
 
             currentAvailableJumps = maxAvailableJumps;
 
@@ -262,7 +263,11 @@ namespace CandyCoded.PlayerController2D
         private void StateRunningLoop()
         {
 
-            Loop(freezeVelocityY: true);
+            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
+
+            horizontalFriction = CalculateHorizontalFriction();
+
+            Loop();
 
         }
 
@@ -279,6 +284,9 @@ namespace CandyCoded.PlayerController2D
         {
 
             _velocity.y = 0;
+
+            horizontalFriction = 0;
+            verticalFriction = 0;
 
             state = STATE.VerticalMovement;
 
@@ -298,6 +306,9 @@ namespace CandyCoded.PlayerController2D
 
             _velocity.y = highJumpSpeed;
 
+            horizontalFriction = 0;
+            verticalFriction = 0;
+
             currentAvailableJumps -= 1;
 
             state = STATE.VerticalMovement;
@@ -314,6 +325,9 @@ namespace CandyCoded.PlayerController2D
         private void StateVerticalMovementLoop()
         {
 
+            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
+            _velocity.y = CalculateVerticalVelocity(_velocity.y);
+
             Loop();
 
         }
@@ -323,12 +337,21 @@ namespace CandyCoded.PlayerController2D
 
             _velocity.x = 0;
 
+            horizontalFriction = 0;
+            verticalFriction = 0;
+
+            currentAvailableJumps = maxAvailableJumps;
+
         }
 
         private void StateWallSlidingLoop()
         {
 
-            Loop(freezeVelocityX: true);
+            _velocity.y = CalculateVerticalVelocity(_velocity.y);
+
+            verticalFriction = CalculateVerticalFriction();
+
+            Loop();
 
         }
 
@@ -364,6 +387,11 @@ namespace CandyCoded.PlayerController2D
 
         private void StateWallDismountSwitch()
         {
+
+            _velocity.x = 0;
+
+            horizontalFriction = 0;
+            verticalFriction = 0;
 
             state = STATE.VerticalMovement;
 
