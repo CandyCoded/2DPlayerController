@@ -170,6 +170,7 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.Running)) StateRunningSwitch();
             else if (state.Equals(STATE.Fall)) StateFallSwitch();
             else if (state.Equals(STATE.Jump)) StateJumpSwitch();
+            else if (state.Equals(STATE.WallJump)) StateWallJumpingSwitch();
             else if (state.Equals(STATE.WallSliding)) StateWallSlidingSwitch();
             else if (state.Equals(STATE.WallSticking)) StateWallStickingSwitch();
             else if (state.Equals(STATE.WallDismount)) StateWallDismountSwitch();
@@ -209,6 +210,7 @@ namespace CandyCoded.PlayerController2D
             else if (IsWallSliding(bounds)) state = STATE.WallSliding;
             else if (IsFalling(bounds)) state = STATE.Fall;
             else if (IsRunning(bounds)) state = STATE.Running;
+            else if (IsWallJumping(bounds)) state = STATE.WallJump;
             else if (IsJumping()) state = STATE.Jump;
 
         }
@@ -388,7 +390,28 @@ namespace CandyCoded.PlayerController2D
         private void StateWallJumpingSwitch()
         {
 
-            throw new NotImplementedException();
+            var bounds = CalculateMovementBounds();
+
+            var horizontalDirection = 0;
+
+            if (position.x.NearlyEqual(bounds.left)) horizontalDirection = 1;
+            else if (position.x.NearlyEqual(bounds.right)) horizontalDirection = -1;
+
+            _velocity.y = highJumpSpeed;
+            _velocity.x = horizontalDirection * horizontalSpeed;
+
+            state = STATE.VerticalMovement;
+
+        }
+
+        private bool IsWallJumping(MovementBounds bounds)
+        {
+
+            return state.Equals(STATE.WallSliding) && inputManager.inputJumpDown &&
+                (
+                    (position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal >= 0) ||
+                    (position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal <= 0)
+                );
 
         }
 
