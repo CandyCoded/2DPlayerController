@@ -467,7 +467,7 @@ namespace CandyCoded.PlayerController2D
         private float CalculateVerticalVelocity(float velocityY)
         {
 
-            velocityY = Mathf.Max(velocityY + gravity * Time.deltaTime, Physics2D.gravity.y);
+            velocityY = Mathf.Max(velocityY + gravity * Time.deltaTime, gravity);
 
             return velocityY;
 
