@@ -194,6 +194,13 @@ namespace CandyCoded.PlayerController2D
 
             position = MoveStep(bounds);
 
+            LoopStateSwitch(bounds);
+
+        }
+
+        private void LoopStateSwitch(MovementBounds bounds)
+        {
+
             if (IsIdle(bounds))
             {
 
