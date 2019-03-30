@@ -83,6 +83,8 @@ namespace CandyCoded.PlayerController2D
         private Vector2 verticalExtents;
         private Vector2 horizontalExtents;
 
+        private int currentAvailableJumps;
+
         public enum STATE
         {
             Idle,
@@ -263,6 +265,8 @@ namespace CandyCoded.PlayerController2D
             _velocity.x = 0;
             _velocity.y = 0;
 
+            currentAvailableJumps = maxAvailableJumps;
+
         }
 
         private void StateIdleLoop()
@@ -297,6 +301,8 @@ namespace CandyCoded.PlayerController2D
         {
 
             _velocity.y = 0;
+
+            currentAvailableJumps = maxAvailableJumps;
 
         }
 
@@ -337,6 +343,8 @@ namespace CandyCoded.PlayerController2D
 
             _velocity.y = highJumpSpeed;
 
+            currentAvailableJumps -= 1;
+
             state = STATE.VerticalMovement;
 
         }
@@ -344,7 +352,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsJumping()
         {
 
-            return !state.Equals(STATE.VerticalMovement) && inputManager.inputJumpDown;
+            return inputManager.inputJumpDown && currentAvailableJumps >= 1;
 
         }
 
