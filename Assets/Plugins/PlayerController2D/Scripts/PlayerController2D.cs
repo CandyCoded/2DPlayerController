@@ -46,6 +46,7 @@ namespace CandyCoded.PlayerController2D
         public const float DEFAULT_WALL_SLIDE_SPEED = -2.0f;
         public const float DEFAULT_WALL_STICK_TRANSITION_DELAY = 0.2f;
         public const int DEFAULT_MAX_AVAILABLE_JUMPS = 2;
+        public const float EDGE_COLLIDE_PREVENTION_RATIO = 0.1f;
 
         public float horizontalSpeed = DEFAULT_HORIZONTAL_SPEED;
         public float horizontalResistance = DEFAULT_HORIZONTAL_RESISTANCE;
@@ -55,6 +56,7 @@ namespace CandyCoded.PlayerController2D
         public float wallSlideSpeed = DEFAULT_WALL_SLIDE_SPEED;
         public float wallStickTransitionDelay = DEFAULT_WALL_STICK_TRANSITION_DELAY;
         public int maxAvailableJumps = DEFAULT_MAX_AVAILABLE_JUMPS;
+        public float edgeCollidePreventionRatio = EDGE_COLLIDE_PREVENTION_RATIO;
 
         public LayerMaskGroup layerMask = new LayerMaskGroup();
 
@@ -468,13 +470,16 @@ namespace CandyCoded.PlayerController2D
 
             var size = boxCollider.bounds.size;
 
-            var hitLeftRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.left, size.x, layerMask.left)
+            var horizontalSize = size - Vector3.up * (edgeCollidePreventionRatio * verticalExtents.y);
+            var verticalSize = size - Vector3.right * (edgeCollidePreventionRatio * horizontalExtents.x);
+
+            var hitLeftRay = Physics2D.BoxCastAll(position, horizontalSize, 0f, Vector2.left, size.x, layerMask.left)
                 .FirstOrDefault(h => h.point.x < boxCollider.bounds.min.x);
-            var hitRightRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.right, size.x, layerMask.right)
+            var hitRightRay = Physics2D.BoxCastAll(position, horizontalSize, 0f, Vector2.right, size.x, layerMask.right)
                 .FirstOrDefault(h => h.point.x > boxCollider.bounds.max.x);
-            var hitTopRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.up, size.y, layerMask.top)
+            var hitTopRay = Physics2D.BoxCastAll(position, verticalSize, 0f, Vector2.up, size.y, layerMask.top)
                 .FirstOrDefault(h => h.point.y > boxCollider.bounds.max.y);
-            var hitBottomRay = Physics2D.BoxCastAll(position, size, 0f, Vector2.down, size.y, layerMask.bottom)
+            var hitBottomRay = Physics2D.BoxCastAll(position, verticalSize, 0f, Vector2.down, size.y, layerMask.bottom)
                 .FirstOrDefault(h => h.point.y < boxCollider.bounds.min.y);
 
             var bounds = new MovementBounds
@@ -534,6 +539,9 @@ namespace CandyCoded.PlayerController2D
 
                 var size = boxCollider.bounds.size;
 
+                var horizontalSize = size - Vector3.up * (edgeCollidePreventionRatio * verticalExtents.y);
+                var verticalSize = size - Vector3.right * (edgeCollidePreventionRatio * horizontalExtents.x);
+
                 position = gameObject.transform.position;
 
                 var bounds = CalculateMovementBounds();
@@ -541,22 +549,22 @@ namespace CandyCoded.PlayerController2D
                 Gizmos.color = Color.green;
 
                 // Left
-                Gizmos.DrawWireCube(position + Vector2.left * size.x, size);
+                Gizmos.DrawWireCube(position + Vector2.left * size.x, horizontalSize);
                 Gizmos.DrawWireSphere(position - horizontalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(bounds.left - extents.x, position.y), 1);
 
                 // Right
-                Gizmos.DrawWireCube(position + Vector2.right * size.x, size);
+                Gizmos.DrawWireCube(position + Vector2.right * size.x, horizontalSize);
                 Gizmos.DrawWireSphere(position + horizontalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(bounds.right + extents.x, position.y), 1);
 
                 // Top
-                Gizmos.DrawWireCube(position + Vector2.up * size.y, size);
+                Gizmos.DrawWireCube(position + Vector2.up * size.y, verticalSize);
                 Gizmos.DrawWireSphere(position + verticalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(position.x, bounds.top + extents.y), 1);
 
                 // Bottom
-                Gizmos.DrawWireCube(position + Vector2.down * size.y, size);
+                Gizmos.DrawWireCube(position + Vector2.down * size.y, verticalSize);
                 Gizmos.DrawWireSphere(position - verticalExtents, frictionRaycastRadius);
                 Gizmos.DrawWireSphere(new Vector2(position.x, bounds.bottom - extents.y), 1);
 
