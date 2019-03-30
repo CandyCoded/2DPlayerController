@@ -359,10 +359,11 @@ namespace CandyCoded.PlayerController2D
         private bool IsVerticalMovement(MovementBounds bounds)
         {
 
-            return !state.Equals(STATE.VerticalMovement) &&
-                !_velocity.y.NearlyEqual(0) &&
-                !position.x.NearlyEqual(bounds.left) &&
-                !position.x.NearlyEqual(bounds.right);
+            return !state.Equals(STATE.VerticalMovement) && !_velocity.y.NearlyEqual(0) &&
+                (
+                    (!position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal < 0) ||
+                    (!position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal > 0)
+                );
 
         }
 
@@ -422,8 +423,8 @@ namespace CandyCoded.PlayerController2D
 
             return state.Equals(STATE.WallSliding) &&
                 (
-                    (position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal > 0) ||
-                    (position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal < 0)
+                    (!position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal < 0) ||
+                    (!position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal > 0)
                 );
 
         }
