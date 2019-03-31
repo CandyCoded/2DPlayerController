@@ -206,6 +206,7 @@ namespace CandyCoded.PlayerController2D
         {
 
             if (IsIdle(bounds)) state = STATE.Idle;
+            else if (IsVerticalMovement(bounds)) state = STATE.VerticalMovement;
             else if (IsWallDismounting(bounds)) state = STATE.WallDismount;
             else if (IsWallSliding(bounds)) state = STATE.WallSliding;
             else if (IsFalling(bounds)) state = STATE.Fall;
@@ -345,6 +346,17 @@ namespace CandyCoded.PlayerController2D
             _velocity.y = CalculateVerticalVelocity(_velocity.y);
 
             Loop();
+
+        }
+
+        private bool IsVerticalMovement(MovementBounds bounds)
+        {
+
+            return !state.Equals(STATE.VerticalMovement) && !_velocity.y.NearlyEqual(0) &&
+                (
+                    (!position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal < 0) ||
+                    (!position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal > 0)
+                );
 
         }
 
