@@ -264,7 +264,6 @@ namespace CandyCoded.PlayerController2D
         private void StateRunningSwitch()
         {
 
-            _velocity.x = 0;
             _velocity.y = 0;
 
             horizontalFriction = 0;
