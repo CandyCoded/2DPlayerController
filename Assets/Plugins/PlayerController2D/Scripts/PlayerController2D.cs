@@ -238,7 +238,12 @@ namespace CandyCoded.PlayerController2D
         private bool IsIdle(MovementBounds bounds)
         {
 
-            return !state.Equals(STATE.Idle) && bounds.bottom.NearlyEqual(position.y) && _velocity.x.NearlyEqual(0);
+            return !state.Equals(STATE.Idle) &&
+                (
+                    position.y.NearlyEqual(bounds.bottom) && _velocity.x.NearlyEqual(0) ||
+                    position.y.NearlyEqual(bounds.bottom) && position.x.NearlyEqual(bounds.left) ||
+                    position.y.NearlyEqual(bounds.bottom) && position.x.NearlyEqual(bounds.right)
+                );
 
         }
 
@@ -283,9 +288,12 @@ namespace CandyCoded.PlayerController2D
         private bool IsRunning(MovementBounds bounds)
         {
 
-            return !state.Equals(STATE.Running) && bounds.bottom.NearlyEqual(position.y) &&
+            return !state.Equals(STATE.Running) && position.y.NearlyEqual(bounds.bottom) &&
                 (Mathf.Abs(inputManager.inputHorizontal) > 0 || Mathf.Abs(_velocity.x) > 0) &&
-                (bounds.right > position.x || bounds.left < position.x);
+                (
+                    (!position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal <= 0) ||
+                    (!position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal >= 0)
+                );
 
         }
 
@@ -305,8 +313,8 @@ namespace CandyCoded.PlayerController2D
         {
 
             return !state.Equals(STATE.VerticalMovement) && !state.Equals(STATE.WallSliding) &&
-                (bounds.bottom.Equals(Mathf.NegativeInfinity) || !position.y.NearlyEqual(bounds.bottom)) &&
-                _velocity.y <= 0 || position.y.NearlyEqual(bounds.top);
+                !position.y.NearlyEqual(bounds.bottom) && _velocity.y <= 0 ||
+                position.y.NearlyEqual(bounds.top);
 
         }
 
@@ -369,7 +377,7 @@ namespace CandyCoded.PlayerController2D
 
             return !state.Equals(STATE.WallSliding) &&
                 (position.x.NearlyEqual(bounds.left) || position.x.NearlyEqual(bounds.right)) &&
-                (!position.y.NearlyEqual(bounds.top) && !position.y.NearlyEqual(bounds.bottom));
+                !position.y.NearlyEqual(bounds.top) && !position.y.NearlyEqual(bounds.bottom);
 
         }
 
@@ -431,8 +439,8 @@ namespace CandyCoded.PlayerController2D
 
             return state.Equals(STATE.WallSliding) &&
                 (
-                    (!position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal < 0) ||
-                    (!position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal > 0)
+                    (position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal > 0) ||
+                    (position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal < 0)
                 );
 
         }
