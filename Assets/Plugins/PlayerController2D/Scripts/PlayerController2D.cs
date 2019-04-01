@@ -181,7 +181,6 @@ namespace CandyCoded.PlayerController2D
             else if (state.Equals(STATE.Jump)) StateJumpSwitch();
             else if (state.Equals(STATE.WallJump)) StateWallJumpingSwitch();
             else if (state.Equals(STATE.WallSliding)) StateWallSlidingSwitch();
-            else if (state.Equals(STATE.WallSticking)) StateWallStickingSwitch();
             else if (state.Equals(STATE.WallDismount)) StateWallDismountSwitch();
 
         }
@@ -218,6 +217,7 @@ namespace CandyCoded.PlayerController2D
             else if (IsRunning(bounds)) state = STATE.Running;
             else if (IsWallDismounting(bounds)) state = STATE.WallDismount;
             else if (IsWallJumping(bounds)) state = STATE.WallJump;
+            else if (IsWallSticking(bounds)) state = STATE.WallSticking;
             else if (IsWallSliding(bounds)) state = STATE.WallSliding;
             else if (IsVerticalMovement(bounds)) state = STATE.VerticalMovement;
             else if (IsFalling(bounds)) state = STATE.Fall;
@@ -321,7 +321,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsFalling(MovementBounds bounds)
         {
 
-            return !state.Equals(STATE.VerticalMovement) && !state.Equals(STATE.WallSliding) &&
+            return !state.Equals(STATE.VerticalMovement) && !state.Equals(STATE.WallSliding) && !state.Equals(STATE.WallSticking) &&
                 !position.y.NearlyEqual(bounds.bottom) && _velocity.y <= 0 ||
                 position.y.NearlyEqual(bounds.top);
 
@@ -386,8 +386,6 @@ namespace CandyCoded.PlayerController2D
 
             _velocity.y = CalculateVerticalVelocity(_velocity.y);
 
-            verticalFriction = CalculateVerticalFriction();
-
             Loop();
 
         }
@@ -395,23 +393,31 @@ namespace CandyCoded.PlayerController2D
         private bool IsWallSliding(MovementBounds bounds)
         {
 
-            return !state.Equals(STATE.WallSliding) &&
+            return !state.Equals(STATE.WallSliding) && !state.Equals(STATE.WallSticking) &&
                 (position.x.NearlyEqual(bounds.left) || position.x.NearlyEqual(bounds.right)) &&
                 !position.y.NearlyEqual(bounds.top) && !position.y.NearlyEqual(bounds.bottom);
-
-        }
-
-        private void StateWallStickingSwitch()
-        {
-
-            throw new NotImplementedException();
 
         }
 
         private void StateWallStickingLoop()
         {
 
-            throw new NotImplementedException();
+            _velocity.y = CalculateVerticalVelocity(_velocity.y);
+
+            verticalFriction = CalculateVerticalFriction();
+
+            Loop();
+
+        }
+
+        private bool IsWallSticking(MovementBounds bounds)
+        {
+
+            return toggleableStates.wallSticking && state.Equals(STATE.WallSliding) &&
+                (
+                    (position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal < 0) ||
+                    (position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal > 0)
+                );
 
         }
 
