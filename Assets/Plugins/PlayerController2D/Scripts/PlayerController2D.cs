@@ -47,21 +47,21 @@ namespace CandyCoded.PlayerController2D
 
         public const float DEFAULT_HORIZONTAL_SPEED = 7.0f;
         public const float DEFAULT_AIR_RESISTANCE = 0.02f;
-        public const float DEFAULT_LOW_JUMP_SPEED = 10.0f;
+        //public const float DEFAULT_LOW_JUMP_SPEED = 10.0f;
         public const float DEFAULT_HIGH_JUMP_SPEED = 15.0f;
         public static readonly Vector2 DEFAULT_GRAVITY = new Vector2(0, -30f);
-        public const float DEFAULT_WALL_SLIDE_SPEED = -2.0f;
-        public const float DEFAULT_WALL_STICK_TRANSITION_DELAY = 0.2f;
+        //public const float DEFAULT_WALL_SLIDE_SPEED = -2.0f;
+        //public const float DEFAULT_WALL_STICK_TRANSITION_DELAY = 0.2f;
         public const int DEFAULT_MAX_AVAILABLE_JUMPS = 2;
         public const float EDGE_COLLIDE_PREVENTION_RATIO = 0.1f;
 
         public float horizontalSpeed = DEFAULT_HORIZONTAL_SPEED;
         public float airResistance = DEFAULT_AIR_RESISTANCE;
-        public float lowJumpSpeed = DEFAULT_LOW_JUMP_SPEED;
+        //public float lowJumpSpeed = DEFAULT_LOW_JUMP_SPEED;
         public float highJumpSpeed = DEFAULT_HIGH_JUMP_SPEED;
         public Vector2 gravity = DEFAULT_GRAVITY;
-        public float wallSlideSpeed = DEFAULT_WALL_SLIDE_SPEED;
-        public float wallStickTransitionDelay = DEFAULT_WALL_STICK_TRANSITION_DELAY;
+        //public float wallSlideSpeed = DEFAULT_WALL_SLIDE_SPEED;
+        //public float wallStickTransitionDelay = DEFAULT_WALL_STICK_TRANSITION_DELAY;
         public int maxAvailableJumps = DEFAULT_MAX_AVAILABLE_JUMPS;
         public float edgeCollidePreventionRatio = EDGE_COLLIDE_PREVENTION_RATIO;
 
