@@ -21,6 +21,13 @@ namespace CandyCoded.PlayerController2D
         {
         }
 
+        [Serializable]
+        public struct ToggleableStates
+        {
+            public bool wallJumping;
+            public bool wallSticking;
+        }
+
         public struct MovementBounds
         {
             public float left;
@@ -59,6 +66,8 @@ namespace CandyCoded.PlayerController2D
         public float edgeCollidePreventionRatio = EDGE_COLLIDE_PREVENTION_RATIO;
 
         public LayerMaskGroup layerMask = new LayerMaskGroup();
+
+        public ToggleableStates toggleableStates = new ToggleableStates { wallJumping = true, wallSticking = true };
 
 #pragma warning disable CS0649
         [SerializeField]
@@ -425,7 +434,7 @@ namespace CandyCoded.PlayerController2D
         private bool IsWallJumping(MovementBounds bounds)
         {
 
-            return state.Equals(STATE.WallSliding) && inputManager.inputJumpDown &&
+            return toggleableStates.wallJumping && state.Equals(STATE.WallSliding) && inputManager.inputJumpDown &&
                 (
                     (position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal >= 0) ||
                     (position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal <= 0)
