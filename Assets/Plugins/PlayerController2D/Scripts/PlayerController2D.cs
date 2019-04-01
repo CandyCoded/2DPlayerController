@@ -215,12 +215,12 @@ namespace CandyCoded.PlayerController2D
         {
 
             if (IsIdle(bounds)) state = STATE.Idle;
-            else if (IsVerticalMovement(bounds)) state = STATE.VerticalMovement;
-            else if (IsWallDismounting(bounds)) state = STATE.WallDismount;
-            else if (IsWallSliding(bounds)) state = STATE.WallSliding;
-            else if (IsFalling(bounds)) state = STATE.Fall;
             else if (IsRunning(bounds)) state = STATE.Running;
+            else if (IsWallDismounting(bounds)) state = STATE.WallDismount;
             else if (IsWallJumping(bounds)) state = STATE.WallJump;
+            else if (IsWallSliding(bounds)) state = STATE.WallSliding;
+            else if (IsVerticalMovement(bounds)) state = STATE.VerticalMovement;
+            else if (IsFalling(bounds)) state = STATE.Fall;
             else if (IsJumping()) state = STATE.Jump;
 
         }
