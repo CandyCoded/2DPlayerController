@@ -46,7 +46,7 @@ namespace CandyCoded.PlayerController2D
         }
 
         public const float DEFAULT_HORIZONTAL_SPEED = 7.0f;
-        public const float DEFAULT_HORIZONTAL_RESISTANCE = 0.02f;
+        public const float DEFAULT_AIR_RESISTANCE = 0.02f;
         public const float DEFAULT_LOW_JUMP_SPEED = 10.0f;
         public const float DEFAULT_HIGH_JUMP_SPEED = 15.0f;
         public static readonly Vector2 DEFAULT_GRAVITY = new Vector2(0, -30f);
@@ -56,7 +56,7 @@ namespace CandyCoded.PlayerController2D
         public const float EDGE_COLLIDE_PREVENTION_RATIO = 0.1f;
 
         public float horizontalSpeed = DEFAULT_HORIZONTAL_SPEED;
-        public float horizontalResistance = DEFAULT_HORIZONTAL_RESISTANCE;
+        public float airResistance = DEFAULT_AIR_RESISTANCE;
         public float lowJumpSpeed = DEFAULT_LOW_JUMP_SPEED;
         public float highJumpSpeed = DEFAULT_HIGH_JUMP_SPEED;
         public Vector2 gravity = DEFAULT_GRAVITY;
@@ -478,13 +478,13 @@ namespace CandyCoded.PlayerController2D
             if (velocity.x > 0)
             {
 
-                velocityX = Mathf.Min(Mathf.Max(velocityX - Mathf.Max(horizontalResistance, horizontalFriction), 0), horizontalSpeed);
+                velocityX = Mathf.Min(Mathf.Max(velocityX - Mathf.Max(airResistance, horizontalFriction), 0), horizontalSpeed);
 
             }
             else if (velocity.x < 0)
             {
 
-                velocityX = Mathf.Max(Mathf.Min(velocityX + Mathf.Max(horizontalResistance, horizontalFriction), 0), -horizontalSpeed);
+                velocityX = Mathf.Max(Mathf.Min(velocityX + Mathf.Max(airResistance, horizontalFriction), 0), -horizontalSpeed);
 
             }
 
