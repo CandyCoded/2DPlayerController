@@ -218,7 +218,7 @@ namespace CandyCoded.PlayerController2D
             else if (IsWallDismounting(bounds)) state = STATE.WallDismount;
             else if (IsWallJumping(bounds)) state = STATE.WallJump;
             else if (IsWallSticking(bounds)) state = STATE.WallSticking;
-            else if (IsWallSliding(bounds)) state = STATE.WallSliding;
+            else if (IsWallSliding(bounds) || IsWallStickingExit(bounds)) state = STATE.WallSliding;
             else if (IsVerticalMovement(bounds)) state = STATE.VerticalMovement;
             else if (IsFalling(bounds)) state = STATE.Fall;
             else if (IsJumping()) state = STATE.Jump;
@@ -417,6 +417,17 @@ namespace CandyCoded.PlayerController2D
                 (
                     (position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal < 0) ||
                     (position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal > 0)
+                );
+
+        }
+
+        private bool IsWallStickingExit(MovementBounds bounds)
+        {
+
+            return toggleableStates.wallSticking && state.Equals(STATE.WallSticking) &&
+                (
+                    (position.x.NearlyEqual(bounds.left) && inputManager.inputHorizontal >= 0) ||
+                    (position.x.NearlyEqual(bounds.right) && inputManager.inputHorizontal <= 0)
                 );
 
         }
