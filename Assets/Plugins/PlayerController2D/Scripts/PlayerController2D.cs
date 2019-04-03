@@ -286,9 +286,9 @@ namespace CandyCoded.PlayerController2D
         private void StateRunningLoop()
         {
 
-            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
-
             horizontalFriction = CalculateHorizontalFriction();
+
+            _velocity.x = CalculateHorizontalVelocity(_velocity.x);
 
             Loop();
 
@@ -402,9 +402,9 @@ namespace CandyCoded.PlayerController2D
         private void StateWallStickingLoop()
         {
 
-            _velocity.y = CalculateVerticalVelocity(_velocity.y);
-
             verticalFriction = CalculateVerticalFriction();
+
+            _velocity.y = (gravity.y + verticalFriction) * Time.deltaTime;
 
             Loop();
 
