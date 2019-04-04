@@ -225,6 +225,8 @@ namespace CandyCoded.PlayerController2D
 
         }
 
+        #region Idle State
+
         private void StateIdleSwitch()
         {
 
@@ -257,6 +259,10 @@ namespace CandyCoded.PlayerController2D
 
         }
 
+        #endregion
+
+        #region Walking State
+
         private void StateWalkingSwitch()
         {
 
@@ -270,6 +276,10 @@ namespace CandyCoded.PlayerController2D
             throw new NotImplementedException();
 
         }
+
+        #endregion
+
+        #region Running State
 
         private void StateRunningSwitch()
         {
@@ -306,6 +316,10 @@ namespace CandyCoded.PlayerController2D
 
         }
 
+        #endregion
+
+        #region Fall State
+
         private void StateFallSwitch()
         {
 
@@ -326,6 +340,10 @@ namespace CandyCoded.PlayerController2D
                 position.y.NearlyEqual(bounds.top);
 
         }
+
+        #endregion
+
+        #region Jump State
 
         private void StateJumpSwitch()
         {
@@ -348,6 +366,10 @@ namespace CandyCoded.PlayerController2D
 
         }
 
+        #endregion
+
+        #region Vertical Movement State
+
         private void StateVerticalMovementLoop()
         {
 
@@ -368,6 +390,10 @@ namespace CandyCoded.PlayerController2D
                 );
 
         }
+
+        #endregion
+
+        #region Wall Sliding State
 
         private void StateWallSlidingSwitch()
         {
@@ -398,6 +424,10 @@ namespace CandyCoded.PlayerController2D
                 !position.y.NearlyEqual(bounds.top) && !position.y.NearlyEqual(bounds.bottom);
 
         }
+
+        #endregion
+
+        #region Wall Sticking State
 
         private void StateWallStickingLoop()
         {
@@ -432,6 +462,10 @@ namespace CandyCoded.PlayerController2D
 
         }
 
+        #endregion
+
+        #region Wall Jumping State
+
         private void StateWallJumpingSwitch()
         {
 
@@ -459,6 +493,10 @@ namespace CandyCoded.PlayerController2D
 
         }
 
+        #endregion
+
+        #region Wall Dismount State
+
         private void StateWallDismountSwitch()
         {
 
@@ -481,6 +519,8 @@ namespace CandyCoded.PlayerController2D
                 );
 
         }
+
+        #endregion
 
         private float CalculateHorizontalVelocity(float velocityX)
         {
